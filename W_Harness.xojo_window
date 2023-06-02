@@ -20,7 +20,7 @@ Begin DesktopWindow W_Harness
    MinimumHeight   =   64
    MinimumWidth    =   64
    Resizeable      =   True
-   Title           =   "Custom ListBox"
+   Title           =   "TRCustomListBox"
    Type            =   0
    Visible         =   True
    Width           =   600
