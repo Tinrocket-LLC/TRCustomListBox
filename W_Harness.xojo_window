@@ -1,5 +1,5 @@
 #tag DesktopWindow
-Begin DesktopWindow Window1
+Begin DesktopWindow W_Harness
    Backdrop        =   0
    BackgroundColor =   &cFFFFFF
    Composite       =   False
@@ -20,7 +20,7 @@ Begin DesktopWindow Window1
    MinimumHeight   =   64
    MinimumWidth    =   64
    Resizeable      =   True
-   Title           =   "Custom Listbox"
+   Title           =   "Custom ListBox"
    Type            =   0
    Visible         =   True
    Width           =   600
@@ -124,9 +124,6 @@ End
 		    row.HasCustomFontColor = True
 		    row.FontSize = 36
 		    row.Editable = True
-		    'row.EditableWithSinglePress = True
-		    'row.Selectable = False
-		    'row.LineHeight = 50
 		    row.LineSpacing = 1.2
 		    row.MarginLeft = 10
 		    TRCLB_Demo.Rows.Add(row)
@@ -135,7 +132,6 @@ End
 		    row.Editable = True
 		    row.EditableWithSinglePress = True
 		    row.LineSpacing = 1.5
-		    'row.LineHeight = 30
 		    row.WordWrap = True
 		    row.Multiline = True
 		    row.MarginLeft = 25
@@ -145,6 +141,7 @@ End
 		  Next
 		  
 		  TRCLB_Demo.Update
+		  
 		  
 		End Sub
 	#tag EndMethod
