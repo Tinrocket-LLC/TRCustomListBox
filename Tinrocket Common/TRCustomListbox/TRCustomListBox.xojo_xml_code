@@ -1,0 +1,1293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RBProject version="2023r1.1" FormatVersion="2" MinIDEVersion="20210300">
+<block type="DesktopWindow" ID="1261617151">
+ <ObjName>TRCustomListBox</ObjName>
+ <ObjContainerID>0</ObjContainerID>
+ <IsClass>1</IsClass>
+ <Superclass>DesktopContainer</Superclass>
+ <ItemFlags>1</ItemFlags>
+ <IsInterface>0</IsInterface>
+ <Compatibility></Compatibility>
+ <HookInstance>
+  <ItemName>Opening</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>2062958591</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub Opening()</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Me.ContentOffset = New Point</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Me.FontCalculator = New Picture(2, 2)</SourceLine>
+   <SourceLine>Me.FontCalculatorGraphics = Me.FontCalculator.Graphics</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>TA_Cell.BackgroundColor = Color.Clear</SourceLine>
+   <SourceLine>TA_RenderSource.BackgroundColor = Color.Clear</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+ </HookInstance>
+ <HookInstance>
+  <ItemName>Resizing</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1293852671</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub Resizing()</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Me.Update(True)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>TA_RenderSource.Left = Me.Width + 100</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+ </HookInstance>
+ <Method>
+  <ItemName>Update</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>48629759</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub Update(lockOffset as Boolean = False)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Me.Update_ComputeHeight</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Dim offsetY As Double = SB_Vertical.GetContentOffset(Me.ComputedTotalHeight, Me.Height)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If Not lockOffset Then</SourceLine>
+   <SourceLine>Me.ContentOffset.Y = offsetY</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Me.Update_TextArea_Location</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>lockOffset as Boolean = False</ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>Update_ComputeHeight</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>2096791551</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub Update_ComputeHeight()</SourceLine>
+   <SourceLine>Dim i As Integer</SourceLine>
+   <SourceLine>Dim g As Graphics = Me.FontCalculatorGraphics</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Me.ComputedTotalHeight = 0</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>For i = 0 To Self.Rows.LastIndex</SourceLine>
+   <SourceLine>Dim row As TRCustomListBoxRow = Self.Rows(i)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Me.Update_ComputeHeight_Row(row, g)</SourceLine>
+   <SourceLine>Me.ComputedTotalHeight = Me.ComputedTotalHeight + row.ComputedHeight</SourceLine>
+   <SourceLine>Next</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>Press</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>635918335</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub Press(x as Integer, y as Integer, doublePress as Boolean = False)</SourceLine>
+   <SourceLine>Dim i As Integer</SourceLine>
+   <SourceLine>Dim runningHeight As Double</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Recompute pressed location</SourceLine>
+   <SourceLine>x = x - Me.ContentOffset.X</SourceLine>
+   <SourceLine>y = y - Me.ContentOffset.Y</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Check for hit</SourceLine>
+   <SourceLine>For i = 0 To Me.rows.LastIndex</SourceLine>
+   <SourceLine>runningHeight = runningHeight + Me.Rows(i).ComputedHeight</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If y &lt; runningHeight Then</SourceLine>
+   <SourceLine>// Found pressed cell</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Me.Press(i, doublePress)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine>Next</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Me.DeselectAll(True)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return // Not found</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>x as Integer, y as Integer, doublePress as Boolean = False</ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>Press</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>919402495</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub Press(pressedRowIndex as Integer, doublePress as Boolean = False)</SourceLine>
+   <SourceLine>Dim i As Integer</SourceLine>
+   <SourceLine>Dim row As TRCustomListBoxRow = Me.Rows(pressedRowIndex)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If row.Selectable Then</SourceLine>
+   <SourceLine>// TODO: Single row selection for now</SourceLine>
+   <SourceLine>Me.DeselectAll(False)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>row.Selected = True</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If row.Editable Then</SourceLine>
+   <SourceLine>If row.EditableWithSinglePress Or doublePress Then</SourceLine>
+   <SourceLine>Self.EditRow(pressedRowIndex)</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Me.Refresh</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>pressedRowIndex as Integer, doublePress as Boolean = False</ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>DeselectAll</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>231294975</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub DeselectAll(doRefresh as Boolean = True)</SourceLine>
+   <SourceLine>Dim i As Integer</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Deselect all</SourceLine>
+   <SourceLine>For i = 0 To Me.Rows.LastIndex</SourceLine>
+   <SourceLine>Me.Rows(i).Selected = False</SourceLine>
+   <SourceLine>Next</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// TODO: Validate? Maybe send an event</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>TA_Cell.Visible = False</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If doRefresh Then</SourceLine>
+   <SourceLine>C_Content.Refresh</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Me.EditedRowIndex = -1</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>doRefresh as Boolean = True</ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>RowFontName</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>295141375</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function RowFontName(row as TRCustomListBoxRow) As String</SourceLine>
+   <SourceLine>#Pragma BackgroundTasks False</SourceLine>
+   <SourceLine>#Pragma StackOverflowChecking False</SourceLine>
+   <SourceLine>#Pragma NilObjectChecking False</SourceLine>
+   <SourceLine>#Pragma BoundsChecking False</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If row.FontName &lt;&gt; "" Then</SourceLine>
+   <SourceLine>Return row.FontName</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return Self.FontName</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>row as TRCustomListBoxRow</ItemParams>
+  <ItemResult>String</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>RowFontSize</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1741735935</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function RowFontSize(row as TRCustomListBoxRow) As Double</SourceLine>
+   <SourceLine>#Pragma BackgroundTasks False</SourceLine>
+   <SourceLine>#Pragma StackOverflowChecking False</SourceLine>
+   <SourceLine>#Pragma NilObjectChecking False</SourceLine>
+   <SourceLine>#Pragma BoundsChecking False</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If row.FontSize &gt; 0 Then</SourceLine>
+   <SourceLine>Return row.FontSize</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return Self.FontSize</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>row as TRCustomListBoxRow</ItemParams>
+  <ItemResult>Double</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>RowLineHeight</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1915854847</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function RowLineHeight(row as TRCustomListBoxRow, fontName as String, fontSize as Double) As Double</SourceLine>
+   <SourceLine>#Pragma BackgroundTasks False</SourceLine>
+   <SourceLine>#Pragma StackOverflowChecking False</SourceLine>
+   <SourceLine>#Pragma NilObjectChecking False</SourceLine>
+   <SourceLine>#Pragma BoundsChecking False</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If row.LineHeight &gt; 0 Then</SourceLine>
+   <SourceLine>Return row.LineHeight</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Dim g As Graphics = Me.FontCalculatorGraphics</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>g.FontName = fontName</SourceLine>
+   <SourceLine>g.FontSize = fontSize</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return g.TextHeight * row.LineSpacing</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>row as TRCustomListBoxRow, fontName as String, fontSize as Double</ItemParams>
+  <ItemResult>Double</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>RowFontColor</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>366974975</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function RowFontColor(row as TRCustomListBoxRow) As Color</SourceLine>
+   <SourceLine>#Pragma BackgroundTasks False</SourceLine>
+   <SourceLine>#Pragma StackOverflowChecking False</SourceLine>
+   <SourceLine>#Pragma NilObjectChecking False</SourceLine>
+   <SourceLine>#Pragma BoundsChecking False</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If row.HasCustomFontColor Then</SourceLine>
+   <SourceLine>Return row.FontColor</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return Self.FontColor</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>row as TRCustomListBoxRow</ItemParams>
+  <ItemResult>Color</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>Update_ComputeHeight_Row</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1838927871</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub Update_ComputeHeight_Row(row As TRCustomListBoxRow, g As Graphics)</SourceLine>
+   <SourceLine>#Pragma BackgroundTasks False</SourceLine>
+   <SourceLine>#Pragma StackOverflowChecking False</SourceLine>
+   <SourceLine>#Pragma NilObjectChecking False</SourceLine>
+   <SourceLine>#Pragma BoundsChecking False</SourceLine>
+   <SourceLine>Dim lineHeight As Double</SourceLine>
+   <SourceLine>Dim lines(-1) As String</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If row.Height &gt; 0 Then</SourceLine>
+   <SourceLine>row.ComputedHeight = row.Height</SourceLine>
+   <SourceLine>ElseIf Me.RowHeight &gt; 0 Then</SourceLine>
+   <SourceLine>row.ComputedHeight = Me.RowHeight</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>g.FontName = Self.RowFontName(row)</SourceLine>
+   <SourceLine>g.FontSize = Self.RowFontSize(row)</SourceLine>
+   <SourceLine>lineHeight = Self.RowLineHeight(row, g.FontName, g.FontSize)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Self.Update_TextArea(TA_RenderSource, row, False)</SourceLine>
+   <SourceLine>TA_RenderSource.Width = Self.RowTextAreaWidth(row)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If row.WordWrap And row.Multiline Then</SourceLine>
+   <SourceLine>// Might be issue with right justification?</SourceLine>
+   <SourceLine>TA_RenderSource.Text = TA_RenderSource.Text + "  " // Add two characters to workaround: https://tracker.xojo.com/xojoinc/xojo/-/issues/72962</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Dim lineCount As Integer = TA_RenderSource.LineNumber(TA_RenderSource.Text.Length) + 1</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>row.ComputedHeight = lineCount * g.TextHeight * TA_RenderSource.LineSpacing</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>row.ComputedHeight = row.MarginTop + row.ComputedHeight + row.MarginBottom</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>row As TRCustomListBoxRow, g As Graphics</ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>Update_TextArea_Location</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1710737407</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub Update_TextArea_Location()</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If Self.EditedRowIndex &lt; 0 Then </SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Dim i As Integer</SourceLine>
+   <SourceLine>Dim yOfEditedRow As Double = Me.ContentOffset.Y</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>For i = 0 To Self.EditedRowIndex-1</SourceLine>
+   <SourceLine>yOfEditedRow = yOfEditedRow + Me.Rows(i).ComputedHeight</SourceLine>
+   <SourceLine>Next</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Dim row As TRCustomListBoxRow = Me.Rows(Me.EditedRowIndex)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>TA_Cell.Top = yOfEditedRow</SourceLine>
+   <SourceLine>TA_Cell.Left = row.MarginLeft - kTextAreaLeftMarginPoints</SourceLine>
+   <SourceLine>TA_Cell.Width = Me.Width - TA_Cell.Left - SB_Vertical.Width - row.MarginRight</SourceLine>
+   <SourceLine>TA_Cell.Height = row.ComputedHeight</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>EditRow</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1556727807</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub EditRow(rowIndex as Integer)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Self.EditedRowIndex = rowIndex</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If Self.EditedRowIndex &lt; 0 Then</SourceLine>
+   <SourceLine>TA_Cell.Visible = False</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Self.Update_TextArea(TA_Cell, Me.Rows(Me.EditedRowIndex), False)</SourceLine>
+   <SourceLine>Self.Update_TextArea_Location</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>TA_Cell.Visible = True</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>rowIndex as Integer</ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>RowTextAreaWidth</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>452950015</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function RowTextAreaWidth(row as TRCustomListBoxRow) As Double</SourceLine>
+   <SourceLine>#Pragma BackgroundTasks False</SourceLine>
+   <SourceLine>#Pragma StackOverflowChecking False</SourceLine>
+   <SourceLine>#Pragma NilObjectChecking False</SourceLine>
+   <SourceLine>#Pragma BoundsChecking False</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Dim textLeft As Double = row.MarginLeft</SourceLine>
+   <SourceLine>Dim textWidth As Double = Me.Width - textLeft - kTextAreaRightMarginPoints - SB_Vertical.Width - row.MarginRight</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return textWidth</SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>row as TRCustomListBoxRow</ItemParams>
+  <ItemResult>Double</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>Update_TextArea</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1709473791</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub Update_TextArea(ta as DesktopTextArea, row as TRCustomListBoxRow, drawHighlight as Boolean)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>ta.Text = row.Text</SourceLine>
+   <SourceLine>ta.FontName = Me.RowFontName(row)</SourceLine>
+   <SourceLine>ta.FontSize = Me.RowFontSize(row)</SourceLine>
+   <SourceLine>ta.LineHeight = row.LineHeight</SourceLine>
+   <SourceLine>ta.LineSpacing = row.LineSpacing</SourceLine>
+   <SourceLine>ta.TextColor = Me.RowFontColor(row)</SourceLine>
+   <SourceLine>ta.TextAlignment = row.TextAlignment</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If drawHighlight And row.Selected Then</SourceLine>
+   <SourceLine>ta.BackgroundColor = Color.HighlightColor</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>ta.BackgroundColor = Me.BackgroundColor</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>ta.MultiLine = row.Multiline</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>ta as DesktopTextArea, row as TRCustomListBoxRow, drawHighlight as Boolean</ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Property>
+  <ItemName>Rows(-1)</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>969641983</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Rows(-1) As TRCustomListBoxRow</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>Rows(-1) As TRCustomListBoxRow</ItemDeclaration>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>ContentOffset</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>826585087</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>ContentOffset As Point</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>ContentOffset As Point</ItemDeclaration>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>FontCalculator</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1136435199</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>FontCalculator As Picture</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>FontCalculator As Picture</ItemDeclaration>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>FontCalculatorGraphics</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>2133348351</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>FontCalculatorGraphics As Graphics</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>FontCalculatorGraphics As Graphics</ItemDeclaration>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>ComputedTotalHeight</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>705193983</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>ComputedTotalHeight As Double</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>ComputedTotalHeight As Double</ItemDeclaration>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>RowHeight</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1760333823</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>RowHeight As Integer = -1</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>RowHeight As Integer = -1</ItemDeclaration>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>FontName</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1092161535</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>FontName As String = "System"</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>FontName As String = "System"</ItemDeclaration>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>FontSize</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1502007295</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>FontSize As Integer = 12</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>FontSize As Integer = 12</ItemDeclaration>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>FontColor</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>426414079</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>FontColor As Color</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>FontColor As Color</ItemDeclaration>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>EditedRowIndex</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1582966783</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>EditedRowIndex As Integer = -1</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>EditedRowIndex As Integer = -1</ItemDeclaration>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>SelectedRowIndex</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>822552575</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>SelectedRowIndex As Integer = -1</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>SelectedRowIndex As Integer = -1</ItemDeclaration>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <PropertyVal Name="Composited">False</PropertyVal>
+ <PropertyVal Name="Transparent">True</PropertyVal>
+ <PropertyVal Name="AllowTabs">True</PropertyVal>
+ <PropertyVal Name="AllowFocus">False</PropertyVal>
+ <PropertyVal Name="HasBackgroundColor">True</PropertyVal>
+ <PropertyVal Name="Backdrop">0</PropertyVal>
+ <PropertyVal Name="BackgroundColor">&amp;hFFFFFF</PropertyVal>
+ <PropertyVal Name="Visible">True</PropertyVal>
+ <PropertyVal Name="AllowFocusRing">False</PropertyVal>
+ <PropertyVal Name="Tooltip"></PropertyVal>
+ <PropertyVal Name="Enabled">True</PropertyVal>
+ <PropertyVal Name="AllowAutoDeactivate">True</PropertyVal>
+ <PropertyVal Name="TabStop">True</PropertyVal>
+ <PropertyVal Name="TabPanelIndex">0</PropertyVal>
+ <PropertyVal Name="TabIndex">0</PropertyVal>
+ <PropertyVal Name="LockBottom">False</PropertyVal>
+ <PropertyVal Name="LockRight">False</PropertyVal>
+ <PropertyVal Name="LockTop">True</PropertyVal>
+ <PropertyVal Name="LockLeft">True</PropertyVal>
+ <PropertyVal Name="Top">0</PropertyVal>
+ <PropertyVal Name="Left">0</PropertyVal>
+ <PropertyVal Name="InitialParent"></PropertyVal>
+ <PropertyVal Name="Height">300</PropertyVal>
+ <PropertyVal Name="Width">300</PropertyVal>
+ <PropertyVal Name="Index">-2147483648</PropertyVal>
+ <ViewBehavior>
+  <ViewProperty>
+   <ObjName>Name</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>ID</PropertyGroup>
+   <ItemType>String</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>Super</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>ID</PropertyGroup>
+   <ItemType>String</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>Index</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>ID</PropertyGroup>
+   <PropertyValue>-2147483648</PropertyValue>
+   <ItemType>Integer</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>Width</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Size</PropertyGroup>
+   <PropertyValue>300</PropertyValue>
+   <ItemType>Integer</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>Height</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Size</PropertyGroup>
+   <PropertyValue>300</PropertyValue>
+   <ItemType>Integer</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>InitialParent</ObjName>
+   <PropertyGroup>Position</PropertyGroup>
+   <ItemType>String</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>Left</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Position</PropertyGroup>
+   <PropertyValue>0</PropertyValue>
+   <ItemType>Integer</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>Top</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Position</PropertyGroup>
+   <PropertyValue>0</PropertyValue>
+   <ItemType>Integer</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>LockLeft</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Position</PropertyGroup>
+   <PropertyValue>True</PropertyValue>
+   <ItemType>Boolean</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>LockTop</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Position</PropertyGroup>
+   <PropertyValue>True</PropertyValue>
+   <ItemType>Boolean</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>LockRight</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Position</PropertyGroup>
+   <PropertyValue>False</PropertyValue>
+   <ItemType>Boolean</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>LockBottom</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Position</PropertyGroup>
+   <PropertyValue>False</PropertyValue>
+   <ItemType>Boolean</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>TabIndex</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Position</PropertyGroup>
+   <PropertyValue>0</PropertyValue>
+   <ItemType>Integer</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>TabPanelIndex</ObjName>
+   <PropertyGroup>Position</PropertyGroup>
+   <PropertyValue>0</PropertyValue>
+   <ItemType>Integer</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>TabStop</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Position</PropertyGroup>
+   <PropertyValue>True</PropertyValue>
+   <ItemType>Boolean</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>AllowAutoDeactivate</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Appearance</PropertyGroup>
+   <PropertyValue>True</PropertyValue>
+   <ItemType>Boolean</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>Enabled</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Appearance</PropertyGroup>
+   <PropertyValue>True</PropertyValue>
+   <ItemType>Boolean</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>Tooltip</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Appearance</PropertyGroup>
+   <ItemType>String</ItemType>
+   <EditorType>MultiLineEditor</EditorType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>AllowFocusRing</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Appearance</PropertyGroup>
+   <PropertyValue>False</PropertyValue>
+   <ItemType>Boolean</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>Visible</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Appearance</PropertyGroup>
+   <PropertyValue>True</PropertyValue>
+   <ItemType>Boolean</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>BackgroundColor</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Background</PropertyGroup>
+   <PropertyValue>&amp;hFFFFFF</PropertyValue>
+   <ItemType>ColorGroup</ItemType>
+   <EditorType>ColorGroup</EditorType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>Backdrop</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Background</PropertyGroup>
+   <ItemType>Picture</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>HasBackgroundColor</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Background</PropertyGroup>
+   <PropertyValue>False</PropertyValue>
+   <ItemType>Boolean</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>AllowFocus</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Behavior</PropertyGroup>
+   <PropertyValue>False</PropertyValue>
+   <ItemType>Boolean</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>AllowTabs</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Behavior</PropertyGroup>
+   <PropertyValue>True</PropertyValue>
+   <ItemType>Boolean</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>Transparent</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Behavior</PropertyGroup>
+   <PropertyValue>True</PropertyValue>
+   <ItemType>Boolean</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>Composited</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Window Behavior</PropertyGroup>
+   <PropertyValue>False</PropertyValue>
+   <ItemType>Boolean</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>RowHeight</ObjName>
+   <PropertyGroup>Behavior</PropertyGroup>
+   <PropertyValue>-1</PropertyValue>
+   <ItemType>Integer</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>FontName</ObjName>
+   <PropertyGroup>Behavior</PropertyGroup>
+   <PropertyValue>System</PropertyValue>
+   <ItemType>String</ItemType>
+   <EditorType>MultiLineEditor</EditorType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>FontSize</ObjName>
+   <PropertyGroup>Behavior</PropertyGroup>
+   <PropertyValue>12</PropertyValue>
+   <ItemType>Integer</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>FontColor</ObjName>
+   <PropertyGroup>Behavior</PropertyGroup>
+   <PropertyValue>&amp;c000000</PropertyValue>
+   <ItemType>Color</ItemType>
+  </ViewProperty>
+ </ViewBehavior>
+ <Constant>
+  <ItemName>kTextAreaLeftMarginPoints</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1180852223</PartID>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemType>2</ItemType>
+  <ItemDef>0</ItemDef>
+  <ItemFlags>33</ItemFlags>
+ </Constant>
+ <Constant>
+  <ItemName>kTextAreaRightMarginPoints</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1047078911</PartID>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemType>2</ItemType>
+  <ItemDef>0</ItemDef>
+  <ItemFlags>33</ItemFlags>
+ </Constant>
+ <ControlBehavior>
+  <Superclass>DesktopCanvas</Superclass>
+  <HookInstance>
+   <ItemName>Paint</ItemName>
+   <Compatibility></Compatibility>
+   <Visible>1</Visible>
+   <PartID>1489827839</PartID>
+   <ItemSource>
+    <TextEncoding>134217984</TextEncoding>
+    <SourceLine>Sub Paint(g As Graphics, areas() As Rect)</SourceLine>
+    <SourceLine>Dim i, j As Integer</SourceLine>
+    <SourceLine>Dim lineHeight, textHeight As Double</SourceLine>
+    <SourceLine>Dim runningY As Double</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>g.FontSize = 16</SourceLine>
+    <SourceLine>g.DrawingColor = Color.Black</SourceLine>
+    <SourceLine>g.Translate(Self.ContentOffset.X, Self.ContentOffset.Y)</SourceLine>
+    <SourceLine>runningY = Self.ContentOffset.Y</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>Dim editRow As TRCustomListBoxRow</SourceLine>
+    <SourceLine>If Not Self.EditedRowIndex &lt; 0 Then</SourceLine>
+    <SourceLine>editRow = Self.Rows(Self.EditedRowIndex)</SourceLine>
+    <SourceLine>End</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>For i = 0 To Self.Rows.LastIndex</SourceLine>
+    <SourceLine>Dim row As TRCustomListBoxRow = Self.Rows(i)</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>runningY = runningY + row.ComputedHeight</SourceLine>
+    <SourceLine>If runningY &lt; 0 Then</SourceLine>
+    <SourceLine>g.Translate(0, row.ComputedHeight) // Advance</SourceLine>
+    <SourceLine>Continue // Don't draw yet</SourceLine>
+    <SourceLine>ElseIf runningY - row.ComputedHeight &gt; g.Height Then</SourceLine>
+    <SourceLine>Return // Stop drawing</SourceLine>
+    <SourceLine>End</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>If i &lt;&gt; Self.EditedRowIndex Then // Don't draw edited row; there's a text area covering it</SourceLine>
+    <SourceLine>Dim drawHighlight As Boolean = row &lt;&gt; editRow And row.Selected</SourceLine>
+    <SourceLine>If drawHighlight Then</SourceLine>
+    <SourceLine>g.DrawingColor = Color.HighlightColor</SourceLine>
+    <SourceLine>g.FillRectangle(0, 0, g.Width, row.ComputedHeight)</SourceLine>
+    <SourceLine>End</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>g.DrawingColor = Self.RowFontColor(row)</SourceLine>
+    <SourceLine>g.FontName = Self.RowFontName(row)</SourceLine>
+    <SourceLine>g.FontSize = Self.RowFontSize(row)</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>Self.Update_TextArea(TA_RenderSource, row, drawHighlight)</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>TA_RenderSource.Height = row.ComputedHeight</SourceLine>
+    <SourceLine>TA_RenderSource.Width = Self.RowTextAreaWidth(row)</SourceLine>
+    <SourceLine>TA_RenderSource.MultiLine = row.WordWrap</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>TA_RenderSource.DrawInto(g, row.MarginLeft, row.MarginTop)</SourceLine>
+    <SourceLine>End</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>g.Translate(0, Round(row.ComputedHeight)) // Advance</SourceLine>
+    <SourceLine>Next</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>End Sub</SourceLine>
+   </ItemSource>
+  </HookInstance>
+  <HookInstance>
+   <ItemName>MouseWheel</ItemName>
+   <Compatibility></Compatibility>
+   <Visible>1</Visible>
+   <PartID>979179519</PartID>
+   <ItemSource>
+    <TextEncoding>134217984</TextEncoding>
+    <SourceLine>Function MouseWheel(x As Integer, y As Integer, deltaX As Integer, deltaY As Integer) As Boolean</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>SB_Vertical.Value = SB_Vertical.Value + SB_Vertical.LineStep * Sign(deltaY)</SourceLine>
+    <SourceLine>End Function</SourceLine>
+   </ItemSource>
+  </HookInstance>
+  <HookInstance>
+   <ItemName>MouseDown</ItemName>
+   <Compatibility></Compatibility>
+   <Visible>1</Visible>
+   <PartID>654604287</PartID>
+   <ItemSource>
+    <TextEncoding>134217984</TextEncoding>
+    <SourceLine>Function MouseDown(x As Integer, y As Integer) As Boolean</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>Return True</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>End Function</SourceLine>
+   </ItemSource>
+  </HookInstance>
+  <HookInstance>
+   <ItemName>MouseUp</ItemName>
+   <Compatibility></Compatibility>
+   <Visible>1</Visible>
+   <PartID>1443026943</PartID>
+   <ItemSource>
+    <TextEncoding>134217984</TextEncoding>
+    <SourceLine>Sub MouseUp(x As Integer, y As Integer)</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>Self.Press(x, y)</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>End Sub</SourceLine>
+   </ItemSource>
+  </HookInstance>
+  <HookInstance>
+   <ItemName>DoublePressed</ItemName>
+   <Compatibility></Compatibility>
+   <Visible>1</Visible>
+   <PartID>309235711</PartID>
+   <ItemSource>
+    <TextEncoding>134217984</TextEncoding>
+    <SourceLine>Sub DoublePressed(x As Integer, y As Integer)</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>Self.Press(x, y, True)</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>End Sub</SourceLine>
+   </ItemSource>
+  </HookInstance>
+ </ControlBehavior>
+ <ControlBehavior>
+  <Superclass>DesktopTextArea</Superclass>
+  <HookInstance>
+   <ItemName>TextChanged</ItemName>
+   <Compatibility></Compatibility>
+   <Visible>1</Visible>
+   <PartID>1229232127</PartID>
+   <ItemSource>
+    <TextEncoding>134217984</TextEncoding>
+    <SourceLine>Sub TextChanged()</SourceLine>
+    <SourceLine>If Self.EditedRowIndex &lt; 0 Then Return</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>Dim row As TRCustomListBoxRow = Self.Rows(Self.EditedRowIndex)</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>If Not row.Multiline Then</SourceLine>
+    <SourceLine>// Manually filter out line endings, because the TextArea is not always handling it before this event</SourceLine>
+    <SourceLine>Me.Text = Me.Text.ReplaceAll(EndOfLine, "")</SourceLine>
+    <SourceLine>End</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>row.Text = Me.Text</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>// Self.Update_ComputeHeight</SourceLine>
+    <SourceLine>// No need to do above, just do the following:</SourceLine>
+    <SourceLine>Dim beforeHeight As Double = row.ComputedHeight</SourceLine>
+    <SourceLine>Self.Update_ComputeHeight_Row(row, Self.FontCalculatorGraphics)</SourceLine>
+    <SourceLine>Self.ComputedTotalHeight = Self.ComputedTotalHeight - beforeHeight + row.ComputedHeight</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>Self.Update(True)</SourceLine>
+    <SourceLine>Self.Refresh(True)</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>End Sub</SourceLine>
+   </ItemSource>
+  </HookInstance>
+  <HookInstance>
+   <ItemName>MouseWheel</ItemName>
+   <Compatibility></Compatibility>
+   <Visible>1</Visible>
+   <PartID>1991665663</PartID>
+   <ItemSource>
+    <TextEncoding>134217984</TextEncoding>
+    <SourceLine>Function MouseWheel(x As Integer, y As Integer, deltaX As Integer, deltaY As Integer) As Boolean</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>SB_Vertical.Value = SB_Vertical.Value + SB_Vertical.LineStep * Sign(deltaY)</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>End Function</SourceLine>
+   </ItemSource>
+  </HookInstance>
+ </ControlBehavior>
+ <ControlBehavior>
+  <Superclass>TRProportionalDesktopScrollbar</Superclass>
+  <HookInstance>
+   <ItemName>ValueChanged</ItemName>
+   <Compatibility></Compatibility>
+   <Visible>1</Visible>
+   <PartID>1607790591</PartID>
+   <ItemSource>
+    <TextEncoding>134217984</TextEncoding>
+    <SourceLine>Sub ValueChanged()</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>Self.Update</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>C_Content.Refresh</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>End Sub</SourceLine>
+   </ItemSource>
+  </HookInstance>
+ </ControlBehavior>
+ <ControlBehavior>
+  <Superclass>DesktopTextArea</Superclass>
+ </ControlBehavior>
+ <Control>
+  <ControlClass>DesktopCanvas</ControlClass>
+  <ItemName>DesktopCanvas</ItemName>
+  <PropertyVal Name="AllowAutoDeactivate">True</PropertyVal>
+  <PropertyVal Name="AllowFocus">False</PropertyVal>
+  <PropertyVal Name="AllowFocusRing">True</PropertyVal>
+  <PropertyVal Name="AllowTabs">False</PropertyVal>
+  <PropertyVal Name="Backdrop">0</PropertyVal>
+  <PropertyVal Name="Enabled">True</PropertyVal>
+  <PropertyVal Name="Height">300</PropertyVal>
+  <PropertyVal Name="Index">-2147483648</PropertyVal>
+  <PropertyVal Name="Left">0</PropertyVal>
+  <PropertyVal Name="LockBottom">True</PropertyVal>
+  <PropertyVal Name="LockLeft">True</PropertyVal>
+  <PropertyVal Name="LockRight">True</PropertyVal>
+  <PropertyVal Name="LockTop">True</PropertyVal>
+  <PropertyVal Name="Name">C_Content</PropertyVal>
+  <PropertyVal Name="Scope">2</PropertyVal>
+  <PropertyVal Name="Super">DesktopCanvas</PropertyVal>
+  <PropertyVal Name="TabIndex">0</PropertyVal>
+  <PropertyVal Name="TabPanelIndex">0</PropertyVal>
+  <PropertyVal Name="TabStop">True</PropertyVal>
+  <PropertyVal Name="Tooltip"></PropertyVal>
+  <PropertyVal Name="Top">0</PropertyVal>
+  <PropertyVal Name="Transparent">True</PropertyVal>
+  <PropertyVal Name="Visible">True</PropertyVal>
+  <PropertyVal Name="Width">300</PropertyVal>
+  <ControlIndex>0</ControlIndex>
+  <Locked>0</Locked>
+  <PartID>2010437631</PartID>
+ </Control>
+ <Control>
+  <ControlClass>DesktopTextArea</ControlClass>
+  <ItemName>DesktopTextArea</ItemName>
+  <PropertyVal Name="AllowAutoDeactivate">True</PropertyVal>
+  <PropertyVal Name="AllowFocusRing">True</PropertyVal>
+  <PropertyVal Name="AllowSpellChecking">True</PropertyVal>
+  <PropertyVal Name="AllowStyledText">False</PropertyVal>
+  <PropertyVal Name="AllowTabs">False</PropertyVal>
+  <PropertyVal Name="BackgroundColor">&amp;cFFFFFF00</PropertyVal>
+  <PropertyVal Name="Bold">False</PropertyVal>
+  <PropertyVal Name="Enabled">True</PropertyVal>
+  <PropertyVal Name="FontName">System</PropertyVal>
+  <PropertyVal Name="FontSize">0.0e+</PropertyVal>
+  <PropertyVal Name="FontUnit">0</PropertyVal>
+  <PropertyVal Name="Format"></PropertyVal>
+  <PropertyVal Name="HasBorder">False</PropertyVal>
+  <PropertyVal Name="HasHorizontalScrollbar">False</PropertyVal>
+  <PropertyVal Name="HasVerticalScrollbar">False</PropertyVal>
+  <PropertyVal Name="Height">100</PropertyVal>
+  <PropertyVal Name="HideSelection">True</PropertyVal>
+  <PropertyVal Name="Index">-2147483648</PropertyVal>
+  <PropertyVal Name="Italic">False</PropertyVal>
+  <PropertyVal Name="Left">0</PropertyVal>
+  <PropertyVal Name="LineHeight">0.00</PropertyVal>
+  <PropertyVal Name="LineSpacing">1.00</PropertyVal>
+  <PropertyVal Name="LockBottom">False</PropertyVal>
+  <PropertyVal Name="LockLeft">True</PropertyVal>
+  <PropertyVal Name="LockRight">True</PropertyVal>
+  <PropertyVal Name="LockTop">True</PropertyVal>
+  <PropertyVal Name="MaximumCharactersAllowed">0</PropertyVal>
+  <PropertyVal Name="Multiline">True</PropertyVal>
+  <PropertyVal Name="Name">TA_Cell</PropertyVal>
+  <PropertyVal Name="ReadOnly">False</PropertyVal>
+  <PropertyVal Name="Scope">2</PropertyVal>
+  <PropertyVal Name="Super">DesktopTextArea</PropertyVal>
+  <PropertyVal Name="TabIndex">2</PropertyVal>
+  <PropertyVal Name="TabPanelIndex">0</PropertyVal>
+  <PropertyVal Name="TabStop">True</PropertyVal>
+  <PropertyVal Name="Text"></PropertyVal>
+  <PropertyVal Name="TextAlignment">0</PropertyVal>
+  <PropertyVal Name="TextColor">&amp;h000000</PropertyVal>
+  <PropertyVal Name="Tooltip"></PropertyVal>
+  <PropertyVal Name="Top">361</PropertyVal>
+  <PropertyVal Name="Transparent">False</PropertyVal>
+  <PropertyVal Name="Underline">False</PropertyVal>
+  <PropertyVal Name="UnicodeMode">1</PropertyVal>
+  <PropertyVal Name="ValidationMask"></PropertyVal>
+  <PropertyVal Name="Visible">False</PropertyVal>
+  <PropertyVal Name="Width">100</PropertyVal>
+  <ControlIndex>1</ControlIndex>
+  <Locked>0</Locked>
+  <PartID>131719167</PartID>
+ </Control>
+ <Control>
+  <ControlClass>TRProportionalDesktopScrollbar</ControlClass>
+  <ItemName>TRProportionalDesktopScrollbar</ItemName>
+  <PropertyVal Name="Active">False</PropertyVal>
+  <PropertyVal Name="AllowAutoDeactivate">True</PropertyVal>
+  <PropertyVal Name="AllowFocus">True</PropertyVal>
+  <PropertyVal Name="AllowLiveScrolling">True</PropertyVal>
+  <PropertyVal Name="AllowTabStop">True</PropertyVal>
+  <PropertyVal Name="AutoHide">True</PropertyVal>
+  <PropertyVal Name="Enabled">True</PropertyVal>
+  <PropertyVal Name="Height">300</PropertyVal>
+  <PropertyVal Name="Index">-2147483648</PropertyVal>
+  <PropertyVal Name="InitialParent"></PropertyVal>
+  <PropertyVal Name="Left">285</PropertyVal>
+  <PropertyVal Name="LineStep">5</PropertyVal>
+  <PropertyVal Name="LockBottom">True</PropertyVal>
+  <PropertyVal Name="LockLeft">False</PropertyVal>
+  <PropertyVal Name="LockRight">True</PropertyVal>
+  <PropertyVal Name="LockTop">True</PropertyVal>
+  <PropertyVal Name="MaximumValue">20</PropertyVal>
+  <PropertyVal Name="MinimumValue">0</PropertyVal>
+  <PropertyVal Name="Name">SB_Vertical</PropertyVal>
+  <PropertyVal Name="PageStep">100</PropertyVal>
+  <PropertyVal Name="PanelIndex">0</PropertyVal>
+  <PropertyVal Name="Scope">0</PropertyVal>
+  <PropertyVal Name="Super">TRProportionalDesktopScrollbar</PropertyVal>
+  <PropertyVal Name="TabIndex">3</PropertyVal>
+  <PropertyVal Name="TabPanelIndex">0</PropertyVal>
+  <PropertyVal Name="Tooltip"></PropertyVal>
+  <PropertyVal Name="Top">0</PropertyVal>
+  <PropertyVal Name="Transparent">False</PropertyVal>
+  <PropertyVal Name="Value">0</PropertyVal>
+  <PropertyVal Name="Visible">True</PropertyVal>
+  <PropertyVal Name="Width">15</PropertyVal>
+  <PropertyVal Name="_mIndex">0</PropertyVal>
+  <PropertyVal Name="_mInitialParent"></PropertyVal>
+  <PropertyVal Name="_mName"></PropertyVal>
+  <PropertyVal Name="_mPanelIndex">0</PropertyVal>
+  <ControlIndex>2</ControlIndex>
+  <Locked>0</Locked>
+  <PartID>1723045887</PartID>
+ </Control>
+ <Control>
+  <ControlClass>DesktopTextArea</ControlClass>
+  <ItemName>DesktopTextArea</ItemName>
+  <PropertyVal Name="AllowAutoDeactivate">True</PropertyVal>
+  <PropertyVal Name="AllowFocusRing">True</PropertyVal>
+  <PropertyVal Name="AllowSpellChecking">True</PropertyVal>
+  <PropertyVal Name="AllowStyledText">False</PropertyVal>
+  <PropertyVal Name="AllowTabs">False</PropertyVal>
+  <PropertyVal Name="BackgroundColor">&amp;cFFFFFF00</PropertyVal>
+  <PropertyVal Name="Bold">False</PropertyVal>
+  <PropertyVal Name="Enabled">False</PropertyVal>
+  <PropertyVal Name="FontName">System</PropertyVal>
+  <PropertyVal Name="FontSize">0.0e+</PropertyVal>
+  <PropertyVal Name="FontUnit">0</PropertyVal>
+  <PropertyVal Name="Format"></PropertyVal>
+  <PropertyVal Name="HasBorder">False</PropertyVal>
+  <PropertyVal Name="HasHorizontalScrollbar">False</PropertyVal>
+  <PropertyVal Name="HasVerticalScrollbar">False</PropertyVal>
+  <PropertyVal Name="Height">100</PropertyVal>
+  <PropertyVal Name="HideSelection">True</PropertyVal>
+  <PropertyVal Name="Index">-2147483648</PropertyVal>
+  <PropertyVal Name="Italic">False</PropertyVal>
+  <PropertyVal Name="Left">387</PropertyVal>
+  <PropertyVal Name="LineHeight">0.00</PropertyVal>
+  <PropertyVal Name="LineSpacing">1.00</PropertyVal>
+  <PropertyVal Name="LockBottom">False</PropertyVal>
+  <PropertyVal Name="LockLeft">False</PropertyVal>
+  <PropertyVal Name="LockRight">True</PropertyVal>
+  <PropertyVal Name="LockTop">True</PropertyVal>
+  <PropertyVal Name="MaximumCharactersAllowed">0</PropertyVal>
+  <PropertyVal Name="Multiline">True</PropertyVal>
+  <PropertyVal Name="Name">TA_RenderSource</PropertyVal>
+  <PropertyVal Name="ReadOnly">False</PropertyVal>
+  <PropertyVal Name="Scope">2</PropertyVal>
+  <PropertyVal Name="Super">DesktopTextArea</PropertyVal>
+  <PropertyVal Name="TabIndex">4</PropertyVal>
+  <PropertyVal Name="TabPanelIndex">0</PropertyVal>
+  <PropertyVal Name="TabStop">True</PropertyVal>
+  <PropertyVal Name="Text"></PropertyVal>
+  <PropertyVal Name="TextAlignment">0</PropertyVal>
+  <PropertyVal Name="TextColor">&amp;h000000</PropertyVal>
+  <PropertyVal Name="Tooltip"></PropertyVal>
+  <PropertyVal Name="Top">0</PropertyVal>
+  <PropertyVal Name="Transparent">False</PropertyVal>
+  <PropertyVal Name="Underline">False</PropertyVal>
+  <PropertyVal Name="UnicodeMode">1</PropertyVal>
+  <PropertyVal Name="ValidationMask"></PropertyVal>
+  <PropertyVal Name="Visible">True</PropertyVal>
+  <PropertyVal Name="Width">100</PropertyVal>
+  <ControlIndex>3</ControlIndex>
+  <Locked>0</Locked>
+  <PartID>1782142975</PartID>
+ </Control>
+</block>
+</RBProject>
