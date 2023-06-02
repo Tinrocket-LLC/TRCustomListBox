@@ -355,7 +355,7 @@
    <SourceLine>Self.Update_TextArea(TA_RenderSource, row, False)</SourceLine>
    <SourceLine>TA_RenderSource.Width = Self.RowTextAreaWidth(row)</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>If row.WordWrap And row.Multiline Then</SourceLine>
+   <SourceLine>If row.Multiline Then</SourceLine>
    <SourceLine>// Might be issue with right justification?</SourceLine>
    <SourceLine>TA_RenderSource.Text = TA_RenderSource.Text + "  " // Add two characters to workaround: https://tracker.xojo.com/xojoinc/xojo/-/issues/72962</SourceLine>
    <SourceLine>End</SourceLine>
