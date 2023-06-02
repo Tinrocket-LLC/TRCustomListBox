@@ -977,7 +977,7 @@
     <SourceLine>TA_RenderSource.DrawInto(g, row.MarginLeft, row.MarginTop)</SourceLine>
     <SourceLine>End</SourceLine>
     <SourceLine></SourceLine>
-    <SourceLine>g.Translate(0, Round(row.ComputedHeight)) // Advance</SourceLine>
+    <SourceLine>g.Translate(0, row.ComputedHeight) // Advance</SourceLine>
     <SourceLine>Next</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>End Sub</SourceLine>
