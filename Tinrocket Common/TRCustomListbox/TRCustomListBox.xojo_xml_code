@@ -2,7 +2,7 @@
 <RBProject version="2023r1.1" FormatVersion="2" MinIDEVersion="20210300">
 <block type="DesktopWindow" ID="1261617151">
  <ObjName>TRCustomListBox</ObjName>
- <ObjContainerID>91383807</ObjContainerID>
+ <ObjContainerID>0</ObjContainerID>
  <IsClass>1</IsClass>
  <Superclass>DesktopContainer</Superclass>
  <ItemFlags>1</ItemFlags>
@@ -1225,7 +1225,7 @@
   <PropertyVal Name="Top">0</PropertyVal>
   <PropertyVal Name="Transparent">False</PropertyVal>
   <PropertyVal Name="Value">0</PropertyVal>
-  <PropertyVal Name="Visible">True</PropertyVal>
+  <PropertyVal Name="Visible">False</PropertyVal>
   <PropertyVal Name="Width">15</PropertyVal>
   <PropertyVal Name="_mIndex">0</PropertyVal>
   <PropertyVal Name="_mInitialParent"></PropertyVal>
