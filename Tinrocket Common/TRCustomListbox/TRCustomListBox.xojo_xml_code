@@ -252,7 +252,7 @@
    <SourceLine>#Pragma NilObjectChecking False</SourceLine>
    <SourceLine>#Pragma BoundsChecking False</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>If row.FontSize &gt; 0 Then</SourceLine>
+   <SourceLine>If row.FontSize &gt; -1 Then</SourceLine>
    <SourceLine>Return row.FontSize</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
@@ -613,11 +613,11 @@
   <PartID>1502007295</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>FontSize As Integer = 12</SourceLine>
+   <SourceLine>FontSize As Integer = 0</SourceLine>
    <SourceLine></SourceLine>
   </ItemSource>
   <TextEncoding>134217984</TextEncoding>
-  <ItemDeclaration>FontSize As Integer = 12</ItemDeclaration>
+  <ItemDeclaration>FontSize As Integer = 0</ItemDeclaration>
   <ItemFlags>0</ItemFlags>
   <IsShared>0</IsShared>
  </Property>

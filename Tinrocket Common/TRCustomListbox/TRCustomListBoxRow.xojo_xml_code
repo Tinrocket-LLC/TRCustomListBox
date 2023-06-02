@@ -2,7 +2,7 @@
 <RBProject version="2023r1.1" FormatVersion="2" MinIDEVersion="20210300">
 <block type="Module" ID="1260929023">
  <ObjName>TRCustomListBoxRow</ObjName>
- <ObjContainerID>91383807</ObjContainerID>
+ <ObjContainerID>0</ObjContainerID>
  <IsClass>1</IsClass>
  <ItemFlags>1</ItemFlags>
  <IsInterface>0</IsInterface>
@@ -507,6 +507,11 @@
     <ItemDef>2 - Center</ItemDef>
     <ItemDef>3 - Right</ItemDef>
    </Enumeration>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>ComputedTextHeight</ObjName>
+   <PropertyGroup>Behavior</PropertyGroup>
+   <ItemType>Double</ItemType>
   </ViewProperty>
  </ViewBehavior>
 </block>
