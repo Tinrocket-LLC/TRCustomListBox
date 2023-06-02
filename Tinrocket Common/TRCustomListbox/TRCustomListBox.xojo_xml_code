@@ -362,7 +362,7 @@
    <SourceLine></SourceLine>
    <SourceLine>Dim lineCount As Integer = TA_RenderSource.LineNumber(TA_RenderSource.Text.Length) + 1</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>row.ComputedTextHeight = lineCount * g.TextHeight * TA_RenderSource.LineSpacing</SourceLine>
+   <SourceLine>row.ComputedTextHeight = Ceil(lineCount * g.TextHeight * TA_RenderSource.LineSpacing)</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>row.ComputedHeight = row.MarginTop + row.ComputedTextHeight + row.MarginBottom</SourceLine>
