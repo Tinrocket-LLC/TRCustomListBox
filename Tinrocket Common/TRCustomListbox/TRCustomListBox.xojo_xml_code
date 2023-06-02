@@ -362,10 +362,10 @@
    <SourceLine></SourceLine>
    <SourceLine>Dim lineCount As Integer = TA_RenderSource.LineNumber(TA_RenderSource.Text.Length) + 1</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>row.ComputedHeight = lineCount * g.TextHeight * TA_RenderSource.LineSpacing</SourceLine>
+   <SourceLine>row.ComputedTextHeight = lineCount * g.TextHeight * TA_RenderSource.LineSpacing</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>row.ComputedHeight = row.MarginTop + row.ComputedHeight + row.MarginBottom</SourceLine>
+   <SourceLine>row.ComputedHeight = row.MarginTop + row.ComputedTextHeight + row.MarginBottom</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
@@ -398,11 +398,10 @@
    <SourceLine></SourceLine>
    <SourceLine>Dim row As TRCustomListBoxRow = Me.Rows(Me.EditedRowIndex)</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>TA_Cell.Top = yOfEditedRow</SourceLine>
+   <SourceLine>TA_Cell.Top = yOfEditedRow + row.MarginTop</SourceLine>
    <SourceLine>TA_Cell.Left = row.MarginLeft - kTextAreaLeftMarginPoints</SourceLine>
    <SourceLine>TA_Cell.Width = Me.Width - TA_Cell.Left - SB_Vertical.Width - row.MarginRight</SourceLine>
-   <SourceLine>TA_Cell.Height = row.ComputedHeight</SourceLine>
-   <SourceLine></SourceLine>
+   <SourceLine>TA_Cell.Height = row.ComputedTextHeight</SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
   <TextEncoding>134217984</TextEncoding>
