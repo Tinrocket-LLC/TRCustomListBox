@@ -11,7 +11,7 @@ Inherits TRCustomListBoxRow
 		  Dim leftPoint As Double = 1
 		  
 		  If direction < 0 Then
-		    rightPoint = -0.5
+		    leftPoint = -0.5
 		  Else
 		    leftPoint = -0.5
 		  End
@@ -20,9 +20,9 @@ Inherits TRCustomListBoxRow
 		  p.AddLineToPoint(cornerRadius, 1)
 		  p.AddCurveToPoint(cornerRadiusCurveV, 0, 0, cornerRadiusCurveV, 0, cornerRadius)
 		  p.AddLineToPoint(0, bubbleHeight - cornerRadius)
-		  p.AddCurveToPoint(0, bubbleHeight - cornerRadiusCurveV, cornerRadiusCurveV * rightPoint, bubbleHeight, cornerRadius * rightPoint, bubbleHeight)
-		  p.AddLineToPoint(bubbleWidth - cornerRadius, bubbleHeight)
-		  p.AddCurveToPoint(bubbleWidth - cornerRadiusCurveV, bubbleHeight, bubbleWidth, bubbleHeight - cornerRadiusCurveV, bubbleWidth, bubbleHeight - cornerRadius)
+		  p.AddCurveToPoint(0, bubbleHeight - cornerRadiusCurveV, cornerRadiusCurveV * leftPoint, bubbleHeight, cornerRadius * leftPoint, bubbleHeight)
+		  p.AddLineToPoint(bubbleWidth - cornerRadius * rightPoint, bubbleHeight)
+		  p.AddCurveToPoint(bubbleWidth - cornerRadiusCurveV * rightPoint, bubbleHeight, bubbleWidth, bubbleHeight - cornerRadiusCurveV, bubbleWidth, bubbleHeight - cornerRadius)
 		  p.AddLineToPoint(bubbleWidth, cornerRadius)
 		  p.AddCurveToPoint(bubbleWidth, cornerRadiusCurveV, bubbleWidth - cornerRadiusCurveV, 0, bubbleWidth - cornerRadius, 0)
 		  
@@ -64,21 +64,31 @@ Inherits TRCustomListBoxRow
 		    g.FillRectangle(0, 0, visibleWidth, visibleHeight)
 		  End
 		  
-		  // Wonky calculations
+		  Dim path As GraphicsPath
+		  
+		  g.SaveState
+		  
+		  // Some wonky calculations
 		  If Me.TextAlignment = TextAlignments.Left Then
 		    g.DrawingColor = Color.RGB(0, 0, 0, 255 * 0.9)
-		    'g.FillRoundRectangle(Me.MarginLeft - kBorder, kBorder, Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, kRadius, kRadius)
+		    // g.FillRoundRectangle(Me.MarginLeft - kBorder, kBorder, Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, kRadius, kRadius // Simple round rect)
 		    
-		    g.SaveState
 		    g.Translate(Me.MarginLeft - kBorder, kBorder)
-		    g.FillPath(ChatBubbleCustomListBoxRow.BubblePath(Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, -1))
+		    path = ChatBubbleCustomListBoxRow.BubblePath(Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, -1)
+		    g.FillPath(path)
 		    
-		    g.RestoreState
 		  ElseIf Me.TextAlignment = TextAlignments.Right Then 
 		    g.DrawingColor = &c5db4fa
 		    Dim additionalLeftMargin As Double = visibleWidth - Me.MarginLeft - Me.MarginRight - Me.BubbleWidth
-		    g.FillRoundRectangle(Me.MarginLeft + additionalLeftMargin - kBorder * 6, kBorder, Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, kRadius, kRadius)
+		    
+		    g.Translate(Me.MarginLeft + additionalLeftMargin - kBorder * 6, kBorder)
+		    path = ChatBubbleCustomListBoxRow.BubblePath(Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, 1)
+		    g.FillPath(path)
+		    
+		    'g.FillRoundRectangle(Me.MarginLeft + additionalLeftMargin - kBorder * 6, kBorder, Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, kRadius, kRadius) // Simple round rect)
 		  End
+		  
+		  g.RestoreState
 		  
 		  Return True
 		  
