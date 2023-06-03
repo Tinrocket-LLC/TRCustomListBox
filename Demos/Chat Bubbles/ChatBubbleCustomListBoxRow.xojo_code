@@ -2,18 +2,25 @@
 Protected Class ChatBubbleCustomListBoxRow
 Inherits TRCustomListBoxRow
 	#tag Method, Flags = &h21
-		Private Shared Function BubblePath(bubbleWidth as Double, bubbleHeight as Double) As GraphicsPath
-		  // Approximate, but not a squircle
+		Private Shared Function BubblePath(bubbleWidth as Double, bubbleHeight as Double, direction as Integer) As GraphicsPath
 		  Dim p As GraphicsPath = New GraphicsPath
 		  
-		  Dim cornerRadius As Double = 16
-		  Dim cornerRadiusCurveV As Double = 7.2
+		  Dim cornerRadius As Double = 15
+		  Dim cornerRadiusCurveV As Double = cornerRadius * 0.45
+		  Dim rightPoint As Double = 1
+		  Dim leftPoint As Double = 1
+		  
+		  If direction < 0 Then
+		    rightPoint = -0.5
+		  Else
+		    leftPoint = -0.5
+		  End
 		  
 		  p.MoveToPoint(bubbleWidth - cornerRadius, 0)
-		  p.AddLineToPoint(cornerRadius, 0)
+		  p.AddLineToPoint(cornerRadius, 1)
 		  p.AddCurveToPoint(cornerRadiusCurveV, 0, 0, cornerRadiusCurveV, 0, cornerRadius)
 		  p.AddLineToPoint(0, bubbleHeight - cornerRadius)
-		  p.AddCurveToPoint(0, bubbleHeight - cornerRadiusCurveV, cornerRadiusCurveV, bubbleHeight, cornerRadius, bubbleHeight)
+		  p.AddCurveToPoint(0, bubbleHeight - cornerRadiusCurveV, cornerRadiusCurveV * rightPoint, bubbleHeight, cornerRadius * rightPoint, bubbleHeight)
 		  p.AddLineToPoint(bubbleWidth - cornerRadius, bubbleHeight)
 		  p.AddCurveToPoint(bubbleWidth - cornerRadiusCurveV, bubbleHeight, bubbleWidth, bubbleHeight - cornerRadiusCurveV, bubbleWidth, bubbleHeight - cornerRadius)
 		  p.AddLineToPoint(bubbleWidth, cornerRadius)
@@ -64,7 +71,7 @@ Inherits TRCustomListBoxRow
 		    
 		    g.SaveState
 		    g.Translate(Me.MarginLeft - kBorder, kBorder)
-		    g.FillPath(ChatBubbleCustomListBoxRow.BubblePath(Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2))
+		    g.FillPath(ChatBubbleCustomListBoxRow.BubblePath(Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, -1))
 		    
 		    g.RestoreState
 		  ElseIf Me.TextAlignment = TextAlignments.Right Then 

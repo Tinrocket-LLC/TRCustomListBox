@@ -75,7 +75,7 @@ End
 		  
 		  TRCLB_Chat.Rows.Add(TRCustomListBox.SpacerRow(kGroupSpacing))
 		  
-		  row = New ChatBubbleCustomListBoxRow("Not fair! not fair!")
+		  row = New ChatBubbleCustomListBoxRow("Not fair! Not fair!")
 		  row.TextAlignment = TextAlignments.Left
 		  TRCLB_Chat.Rows.Add(row)
 		  
@@ -85,7 +85,7 @@ End
 		  
 		  TRCLB_Chat.Rows.Add(TRCustomListBox.SpacerRow(kGroupSpacing))
 		  
-		  row = New ChatBubbleCustomListBoxRow("What have I got in my pocket?")
+		  row = New ChatBubbleCustomListBoxRow("WHAT HAVE I GOT IN MY POCKET?")
 		  row.TextAlignment = TextAlignments.Right
 		  TRCLB_Chat.Rows.Add(row)
 		  
@@ -116,6 +116,8 @@ End
 		  row = New ChatBubbleCustomListBoxRow("S-s-s-s-s")
 		  row.TextAlignment = TextAlignments.Left
 		  TRCLB_Chat.Rows.Add(row)
+		  
+		  TRCLB_Chat.Rows.Add(TRCustomListBox.SpacerRow(kGroupSpacing))
 		  
 		  For Each row In TRCLB_Chat.Rows 
 		    row.Editable = True

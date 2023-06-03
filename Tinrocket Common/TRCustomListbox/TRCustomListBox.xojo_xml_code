@@ -1055,7 +1055,7 @@
     <SourceLine>Return // Stop drawing</SourceLine>
     <SourceLine>End</SourceLine>
     <SourceLine></SourceLine>
-    <SourceLine>g.ClipToRectangle(0, 0, g.Width, row.ComputedHeight)</SourceLine>
+    <SourceLine>// g.ClipToRectangle(0, 0, g.Width, row.ComputedHeight) // Background subclass can clip if it needs too</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>Dim rowDidDrawBackground As Boolean = row.Subclass_DrawBackground(Self, g, g.Width, row.ComputedHeight, i, row = editRow)</SourceLine>
     <SourceLine></SourceLine>
