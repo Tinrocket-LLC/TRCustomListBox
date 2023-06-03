@@ -110,25 +110,46 @@ End
 #tag WindowCode
 	#tag Event
 		Sub Opening()
+		  Dim row As ChatBubbleCustomListBoxRow
 		  
-		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("What have I got in my pocket?"))
+		  row = New ChatBubbleCustomListBoxRow("What have I got in my pocket?")
+		  row.TextAlignment = TextAlignments.Right
+		  TRCLB_Chat.Rows.Add(row)
 		  
-		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("Not fair! not fair!"))
-		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("It isn't fair, my precious, is it, to ask us what it's got in its nassty little pocketses?"))
+		  row = New ChatBubbleCustomListBoxRow("Not fair! not fair!")
+		  row.TextAlignment = TextAlignments.Left
+		  TRCLB_Chat.Rows.Add(row)
 		  
-		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("What have I got in my pocket?"))
+		  row = New ChatBubbleCustomListBoxRow("It isn't fair, my precious, is it, to ask us what it's got in its nassty little pocketses?")
+		  row.TextAlignment = TextAlignments.Left
+		  TRCLB_Chat.Rows.Add(row)
 		  
-		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("S-s-s-s-s, it must give us three guesseses, my precious, three guesseses."))
 		  
-		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("Very well! Guess away!"))
+		  row = New ChatBubbleCustomListBoxRow("What have I got in my pocket?")
+		  row.TextAlignment = TextAlignments.Right
+		  TRCLB_Chat.Rows.Add(row)
 		  
-		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("Handses!"))
+		  row = New ChatBubbleCustomListBoxRow("S-s-s-s-s, it must give us three guesseses, my precious, three guesseses.")
+		  row.TextAlignment = TextAlignments.Left
+		  TRCLB_Chat.Rows.Add(row)
 		  
-		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("Wrong, guess again!"))
+		  row = New ChatBubbleCustomListBoxRow("Very well! Guess away!")
+		  row.TextAlignment = TextAlignments.Right
+		  TRCLB_Chat.Rows.Add(row)
 		  
-		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("S-s-s-s-s"))
+		  row = New ChatBubbleCustomListBoxRow("Handses!")
+		  row.TextAlignment = TextAlignments.Left
+		  TRCLB_Chat.Rows.Add(row)
 		  
-		  Me.AdjustRowWidths
+		  row = New ChatBubbleCustomListBoxRow("Wrong, guess again!")
+		  row.TextAlignment = TextAlignments.Right
+		  TRCLB_Chat.Rows.Add(row)
+		  
+		  row = New ChatBubbleCustomListBoxRow("S-s-s-s-s")
+		  row.TextAlignment = TextAlignments.Left
+		  TRCLB_Chat.Rows.Add(row)
+		  
+		  Me.UpdateRowMargins
 		  
 		  TRCLB_Chat.Update
 		End Sub
@@ -136,11 +157,11 @@ End
 
 
 	#tag Method, Flags = &h0
-		Sub AdjustRowWidths()
+		Sub UpdateRowMargins()
 		  Dim w As Double = Me.Width
 		  
 		  For Each row As TRCustomListBoxRow In TRCLB_Chat.Rows
-		    ChatBubbleCustomListBoxRow(row).UpdateWidth(w)
+		    ChatBubbleCustomListBoxRow(row).UpdateMargins(w)
 		  Next
 		  
 		End Sub
@@ -153,7 +174,7 @@ End
 	#tag Event
 		Sub Resizing()
 		  
-		  Self.AdjustRowWidths
+		  Self.UpdateRowMargins
 		  
 		End Sub
 	#tag EndEvent

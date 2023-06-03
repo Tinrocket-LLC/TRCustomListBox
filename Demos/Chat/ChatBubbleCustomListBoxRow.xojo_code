@@ -51,9 +51,14 @@ Inherits TRCustomListBoxRow
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub UpdateWidth(width as Double)
+		Sub UpdateMargins(width as Double)
+		  Dim adjustedWidth As Double = width * (1 - kWidthFraction)
 		  
-		  Me.MarginRight = width * (1 - kWidthFraction)
+		  If Me.TextAlignment = TextAlignments.Left Then
+		    Me.MarginRight = adjustedWidth
+		  ElseIf Me.TextAlignment = TextAlignments.Left Then 
+		    Me.MarginLeft = adjustedWidth
+		  End
 		  
 		End Sub
 	#tag EndMethod
