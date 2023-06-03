@@ -34,13 +34,15 @@ Inherits TRCustomListBoxRow
 		    g.FillRectangle(0, 0, visibleWidth, visibleHeight)
 		  End
 		  
+		  // Wonky calculations
 		  If Me.TextAlignment = TextAlignments.Left Then
 		    g.DrawingColor = Color.RGB(0, 0, 0, 255 * 0.9)
+		    g.FillRoundRectangle(Me.MarginLeft - kBorder, kBorder, Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, kRadius, kRadius)
 		  ElseIf Me.TextAlignment = TextAlignments.Right Then 
 		    g.DrawingColor = &c5db4fa
+		    Dim additionalLeftMargin As Double = visibleWidth - Me.MarginLeft - Me.MarginRight - Me.BubbleWidth
+		    g.FillRoundRectangle(Me.MarginLeft + additionalLeftMargin - kBorder * 6, kBorder, Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, kRadius, kRadius)
 		  End
-		  
-		  g.FillRoundRectangle(Me.MarginLeft - kBorder, kBorder, visibleWidth - Me.MarginLeft - Me.MarginRight, visibleHeight - kBorder * 2, kRadius, kRadius)
 		  
 		  Return True
 		  
@@ -61,11 +63,24 @@ Inherits TRCustomListBoxRow
 	#tag EndMethod
 
 
+	#tag Property, Flags = &h0
+		BubbleWidth As Double
+	#tag EndProperty
+
+
 	#tag Constant, Name = kWidthFraction, Type = Double, Dynamic = False, Default = \"0.6", Scope = Private
 	#tag EndConstant
 
 
 	#tag ViewBehavior
+		#tag ViewProperty
+			Name="ComputedLineCount"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Text"
 			Visible=false

@@ -1266,11 +1266,11 @@
   <PropertyVal Name="HideSelection">True</PropertyVal>
   <PropertyVal Name="Index">-2147483648</PropertyVal>
   <PropertyVal Name="Italic">False</PropertyVal>
-  <PropertyVal Name="Left">0</PropertyVal>
+  <PropertyVal Name="Left">387</PropertyVal>
   <PropertyVal Name="LineHeight">0.00</PropertyVal>
   <PropertyVal Name="LineSpacing">1.00</PropertyVal>
   <PropertyVal Name="LockBottom">False</PropertyVal>
-  <PropertyVal Name="LockLeft">True</PropertyVal>
+  <PropertyVal Name="LockLeft">False</PropertyVal>
   <PropertyVal Name="LockRight">True</PropertyVal>
   <PropertyVal Name="LockTop">True</PropertyVal>
   <PropertyVal Name="MaximumCharactersAllowed">0</PropertyVal>
@@ -1286,7 +1286,7 @@
   <PropertyVal Name="TextAlignment">0</PropertyVal>
   <PropertyVal Name="TextColor">&amp;h000000</PropertyVal>
   <PropertyVal Name="Tooltip"></PropertyVal>
-  <PropertyVal Name="Top">361</PropertyVal>
+  <PropertyVal Name="Top">112</PropertyVal>
   <PropertyVal Name="Transparent">False</PropertyVal>
   <PropertyVal Name="Underline">False</PropertyVal>
   <PropertyVal Name="UnicodeMode">1</PropertyVal>

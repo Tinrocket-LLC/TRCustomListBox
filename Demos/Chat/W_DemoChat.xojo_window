@@ -122,20 +122,32 @@ End
 		    row.EditableWithSinglePress = True
 		  Next
 		  
-		  Me.UpdateRowMargins
+		  TRCLB_Chat.Update // Intial computation of row metrics
+		  Me.UpdateRowMargins // Adjust row metrics
+		  TRCLB_Chat.Update // Update again
 		  
-		  TRCLB_Chat.Update
 		End Sub
 	#tag EndEvent
 
 
 	#tag Method, Flags = &h0
 		Sub UpdateRowMargins()
+		  // Row text width will be a % of the total width, so recalculate some values
 		  Dim w As Double = Me.Width
 		  
 		  For Each row As TRCustomListBoxRow In TRCLB_Chat.Rows
 		    If row IsA ChatBubbleCustomListBoxRow Then
-		      ChatBubbleCustomListBoxRow(row).UpdateMargins(w)
+		      Dim chatRow As ChatBubbleCustomListBoxRow = ChatBubbleCustomListBoxRow(row)
+		      
+		      chatRow.UpdateMargins(w)
+		      chatRow.BubbleWidth = w - chatRow.MarginLeft - chatRow.MarginRight
+		      
+		      If chatRow.ComputedLineCount = 1 Then
+		        // Make the bubble fit the width of single text lines
+		        Dim g As Graphics = TRCLB_Chat.InternalRenderGraphics(chatRow)
+		        
+		        chatRow.BubbleWidth = Min(chatRow.BubbleWidth, g.StringWidth(row.Text))
+		      End
 		    End
 		  Next
 		  
