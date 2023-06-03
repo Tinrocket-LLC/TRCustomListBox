@@ -2,7 +2,7 @@
 Protected Class ChatBubbleCustomListBoxRow
 Inherits TRCustomListBoxRow
 	#tag Method, Flags = &h0
-		Sub Constructor(s as String)
+		Sub Constructor(s as String = "")
 		  
 		  Super.Constructor(s)
 		  

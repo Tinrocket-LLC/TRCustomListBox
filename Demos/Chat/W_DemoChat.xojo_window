@@ -37,7 +37,7 @@ Begin DesktopWindow W_DemoChat
       FontName        =   "System"
       FontSize        =   12
       HasBackgroundColor=   True
-      Height          =   311
+      Height          =   400
       Index           =   -2147483648
       InitialParent   =   ""
       Left            =   0
@@ -57,64 +57,23 @@ Begin DesktopWindow W_DemoChat
       Visible         =   True
       Width           =   600
    End
-   Begin DesktopTextArea TA_Input
-      AllowAutoDeactivate=   True
-      AllowFocusRing  =   True
-      AllowSpellChecking=   True
-      AllowStyledText =   True
-      AllowTabs       =   False
-      BackgroundColor =   &cFFFFFF00
-      Bold            =   False
-      Enabled         =   True
-      FontName        =   "System"
-      FontSize        =   0.0
-      FontUnit        =   0
-      Format          =   ""
-      HasBorder       =   False
-      HasHorizontalScrollbar=   False
-      HasVerticalScrollbar=   True
-      Height          =   57
-      HideSelection   =   True
-      Index           =   -2147483648
-      Italic          =   False
-      Left            =   20
-      LineHeight      =   0.0
-      LineSpacing     =   1.0
-      LockBottom      =   True
-      LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   True
-      LockTop         =   False
-      MaximumCharactersAllowed=   0
-      Multiline       =   True
-      ReadOnly        =   False
-      Scope           =   0
-      TabIndex        =   1
-      TabPanelIndex   =   0
-      TabStop         =   True
-      Text            =   ""
-      TextAlignment   =   0
-      TextColor       =   &c000000
-      Tooltip         =   ""
-      Top             =   323
-      Transparent     =   False
-      Underline       =   False
-      UnicodeMode     =   1
-      ValidationMask  =   ""
-      Visible         =   True
-      Width           =   560
-   End
 End
 #tag EndDesktopWindow
 
 #tag WindowCode
 	#tag Event
 		Sub Opening()
-		  Dim row As ChatBubbleCustomListBoxRow
+		  Static kGroupSpacing As Double = 10
+		  
+		  Dim row As TRCustomListBoxRow
+		  
+		  TRCLB_Chat.Rows.Add(TRCustomListBox.SpacerRow(kGroupSpacing))
 		  
 		  row = New ChatBubbleCustomListBoxRow("What have I got in my pocket?")
 		  row.TextAlignment = TextAlignments.Right
 		  TRCLB_Chat.Rows.Add(row)
+		  
+		  TRCLB_Chat.Rows.Add(TRCustomListBox.SpacerRow(kGroupSpacing))
 		  
 		  row = New ChatBubbleCustomListBoxRow("Not fair! not fair!")
 		  row.TextAlignment = TextAlignments.Left
@@ -124,6 +83,8 @@ End
 		  row.TextAlignment = TextAlignments.Left
 		  TRCLB_Chat.Rows.Add(row)
 		  
+		  TRCLB_Chat.Rows.Add(TRCustomListBox.SpacerRow(kGroupSpacing))
+		  
 		  row = New ChatBubbleCustomListBoxRow("What have I got in my pocket?")
 		  row.TextAlignment = TextAlignments.Right
 		  TRCLB_Chat.Rows.Add(row)
@@ -132,21 +93,34 @@ End
 		  row.TextAlignment = TextAlignments.Left
 		  TRCLB_Chat.Rows.Add(row)
 		  
+		  TRCLB_Chat.Rows.Add(TRCustomListBox.SpacerRow(kGroupSpacing))
+		  
 		  row = New ChatBubbleCustomListBoxRow("Very well! Guess away!")
 		  row.TextAlignment = TextAlignments.Right
 		  TRCLB_Chat.Rows.Add(row)
+		  
+		  TRCLB_Chat.Rows.Add(TRCustomListBox.SpacerRow(kGroupSpacing))
 		  
 		  row = New ChatBubbleCustomListBoxRow("Handses!")
 		  row.TextAlignment = TextAlignments.Left
 		  TRCLB_Chat.Rows.Add(row)
 		  
+		  TRCLB_Chat.Rows.Add(TRCustomListBox.SpacerRow(kGroupSpacing))
+		  
 		  row = New ChatBubbleCustomListBoxRow("Wrong, guess again!")
 		  row.TextAlignment = TextAlignments.Right
 		  TRCLB_Chat.Rows.Add(row)
 		  
+		  TRCLB_Chat.Rows.Add(TRCustomListBox.SpacerRow(kGroupSpacing))
+		  
 		  row = New ChatBubbleCustomListBoxRow("S-s-s-s-s")
 		  row.TextAlignment = TextAlignments.Left
 		  TRCLB_Chat.Rows.Add(row)
+		  
+		  For Each row In TRCLB_Chat.Rows 
+		    row.Editable = True
+		    row.EditableWithSinglePress = True
+		  Next
 		  
 		  Me.UpdateRowMargins
 		  
@@ -160,7 +134,9 @@ End
 		  Dim w As Double = Me.Width
 		  
 		  For Each row As TRCustomListBoxRow In TRCLB_Chat.Rows
-		    ChatBubbleCustomListBoxRow(row).UpdateMargins(w)
+		    If row IsA ChatBubbleCustomListBoxRow Then
+		      ChatBubbleCustomListBoxRow(row).UpdateMargins(w)
+		    End
 		  Next
 		  
 		End Sub
@@ -177,25 +153,13 @@ End
 		  
 		End Sub
 	#tag EndEvent
-#tag EndEvents
-#tag Events TA_Input
 	#tag Event
-		Function KeyDown(key As String) As Boolean
+		Sub WillEditRow(row as TRCustomListBoxRow)
 		  
-		  If key = Chr(3) Or key = Chr(13) Then
-		    If Not Keyboard.ShiftKey Then
-		      // Commit input
-		      
-		      Dim cInput As New ChatBubbleCustomListBoxRow(Me.Text)
-		      Me.Text = ""
-		      
-		      TRCLB_Chat.Rows.Add(cInput)
-		      
-		      TRCLB_Chat.Update
-		    End
-		  End
+		  Me.CellTextArea.AllowSpellChecking = False
+		  Me.CellTextArea.ReadOnly = True
 		  
-		End Function
+		End Sub
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior

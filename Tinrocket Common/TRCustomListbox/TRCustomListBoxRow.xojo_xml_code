@@ -14,7 +14,7 @@
   <PartID>1422530559</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Sub Constructor(s as String)</SourceLine>
+   <SourceLine>Sub Constructor(s as String = "")</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Me.Text = s</SourceLine>
    <SourceLine></SourceLine>
@@ -24,7 +24,7 @@
   <AliasName></AliasName>
   <ItemFlags>0</ItemFlags>
   <IsShared>0</IsShared>
-  <ItemParams>s as String</ItemParams>
+  <ItemParams>s as String = ""</ItemParams>
   <ItemResult></ItemResult>
  </Method>
  <Method>
