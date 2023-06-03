@@ -2,23 +2,22 @@
 Protected Class ChatBubbleCustomListBoxRow
 Inherits TRCustomListBoxRow
 	#tag Method, Flags = &h21
-		Private Shared Function BubblePath() As GraphicsPath
+		Private Shared Function BubblePath(bubbleWidth as Double, bubbleHeight as Double) As GraphicsPath
 		  // Approximate, but not a squircle
 		  Dim p As GraphicsPath = New GraphicsPath
 		  
 		  Dim cornerRadius As Double = 16
-		  Dim cornerRadius As Double = 16
-		  Dim cornerRadius As Double = 16
+		  Dim cornerRadiusCurveV As Double = 7.2
 		  
-		  p.MoveToPoint(84, 0)
-		  p.AddLineToPoint(16, 0)
-		  p.AddCurveToPoint(7.2, 0, 0, 7.2, 0, 16)
-		  p.AddLineToPoint(0, 84)
-		  p.AddCurveToPoint(0, 92.8, 7.2, 100, 16, 100)
-		  p.AddLineToPoint(84, 100)
-		  p.AddCurveToPoint(92.8, 100, 100, 92.8, 100, 84)
-		  p.AddLineToPoint(100, 16)
-		  p.AddCurveToPoint(100, 7.2, 92.8, 0, 84, 0)
+		  p.MoveToPoint(bubbleWidth - cornerRadius, 0)
+		  p.AddLineToPoint(cornerRadius, 0)
+		  p.AddCurveToPoint(cornerRadiusCurveV, 0, 0, cornerRadiusCurveV, 0, cornerRadius)
+		  p.AddLineToPoint(0, bubbleHeight - cornerRadius)
+		  p.AddCurveToPoint(0, bubbleHeight - cornerRadiusCurveV, cornerRadiusCurveV, bubbleHeight, cornerRadius, bubbleHeight)
+		  p.AddLineToPoint(bubbleWidth - cornerRadius, bubbleHeight)
+		  p.AddCurveToPoint(bubbleWidth - cornerRadiusCurveV, bubbleHeight, bubbleWidth, bubbleHeight - cornerRadiusCurveV, bubbleWidth, bubbleHeight - cornerRadius)
+		  p.AddLineToPoint(bubbleWidth, cornerRadius)
+		  p.AddCurveToPoint(bubbleWidth, cornerRadiusCurveV, bubbleWidth - cornerRadiusCurveV, 0, bubbleWidth - cornerRadius, 0)
 		  
 		  Return p
 		  
@@ -65,7 +64,7 @@ Inherits TRCustomListBoxRow
 		    
 		    g.SaveState
 		    g.Translate(Me.MarginLeft - kBorder, kBorder)
-		    g.FillPath(ChatBubbleCustomListBoxRow.BubblePath)
+		    g.FillPath(ChatBubbleCustomListBoxRow.BubblePath(Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2))
 		    
 		    g.RestoreState
 		  ElseIf Me.TextAlignment = TextAlignments.Right Then 
