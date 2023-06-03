@@ -5,6 +5,8 @@
 - Add features to support new demo
 - Internal refactorings
 
+![Chat Bubbles Demo](assets/Chat%20Bubbles.png)
+
 2023-06-02
 
 - Improve positioning of text when entering edit mode
