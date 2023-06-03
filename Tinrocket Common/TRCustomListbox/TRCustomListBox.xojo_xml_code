@@ -22,7 +22,7 @@
    <SourceLine>Me.FontCalculator = New Picture(2, 2)</SourceLine>
    <SourceLine>Me.FontCalculatorGraphics = Me.FontCalculator.Graphics</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>TA_Cell.BackgroundColor = Color.Clear</SourceLine>
+   <SourceLine>CellTextArea.BackgroundColor = Color.Clear</SourceLine>
    <SourceLine>TA_RenderSource.BackgroundColor = Color.Clear</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
@@ -55,7 +55,7 @@
    <SourceLine></SourceLine>
    <SourceLine>Me.Update_ComputeHeight</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Dim offsetY As Double = SB_Vertical.GetContentOffset(Me.ComputedTotalHeight, Me.Height)</SourceLine>
+   <SourceLine>Dim offsetY As Double = VerticalScrollbar.GetContentOffset(Me.ComputedTotalHeight, Me.Height)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>If Not lockOffset Then</SourceLine>
    <SourceLine>Me.ContentOffset.Y = offsetY</SourceLine>
@@ -194,7 +194,7 @@
    <SourceLine></SourceLine>
    <SourceLine>// TODO: Validate? Maybe send an event</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>TA_Cell.Visible = False</SourceLine>
+   <SourceLine>CellTextArea.Visible = False</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>If doRefresh Then</SourceLine>
    <SourceLine>C_Content.Refresh</SourceLine>
@@ -398,10 +398,10 @@
    <SourceLine></SourceLine>
    <SourceLine>Dim row As TRCustomListBoxRow = Me.Rows(Me.EditedRowIndex)</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>TA_Cell.Top = yOfEditedRow + row.MarginTop</SourceLine>
-   <SourceLine>TA_Cell.Left = row.MarginLeft - kTextAreaLeftMarginPoints</SourceLine>
-   <SourceLine>TA_Cell.Width = Me.Width - TA_Cell.Left - SB_Vertical.Width - row.MarginRight</SourceLine>
-   <SourceLine>TA_Cell.Height = row.ComputedTextHeight</SourceLine>
+   <SourceLine>CellTextArea.Top = yOfEditedRow + row.MarginTop</SourceLine>
+   <SourceLine>CellTextArea.Left = row.MarginLeft - kTextAreaLeftMarginPoints</SourceLine>
+   <SourceLine>CellTextArea.Width = Me.Width - CellTextArea.Left - VerticalScrollbar.Width - row.MarginRight</SourceLine>
+   <SourceLine>CellTextArea.Height = row.ComputedTextHeight</SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
   <TextEncoding>134217984</TextEncoding>
@@ -423,14 +423,14 @@
    <SourceLine>Self.EditedRowIndex = rowIndex</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>If Self.EditedRowIndex &lt; 0 Then</SourceLine>
-   <SourceLine>TA_Cell.Visible = False</SourceLine>
+   <SourceLine>CellTextArea.Visible = False</SourceLine>
    <SourceLine>Return</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Self.Update_TextArea(TA_Cell, Me.Rows(Me.EditedRowIndex), False)</SourceLine>
+   <SourceLine>Self.Update_TextArea(CellTextArea, Me.Rows(Me.EditedRowIndex), False)</SourceLine>
    <SourceLine>Self.Update_TextArea_Location</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>TA_Cell.Visible = True</SourceLine>
+   <SourceLine>CellTextArea.Visible = True</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
@@ -455,7 +455,7 @@
    <SourceLine>#Pragma BoundsChecking False</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Dim textLeft As Double = row.MarginLeft</SourceLine>
-   <SourceLine>Dim textWidth As Double = Me.Width - textLeft - kTextAreaRightMarginPoints - SB_Vertical.Width - row.MarginRight</SourceLine>
+   <SourceLine>Dim textWidth As Double = Me.Width - textLeft - kTextAreaRightMarginPoints - VerticalScrollbar.Width - row.MarginRight</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Return textWidth</SourceLine>
    <SourceLine>End Function</SourceLine>
@@ -996,7 +996,7 @@
     <TextEncoding>134217984</TextEncoding>
     <SourceLine>Function MouseWheel(x As Integer, y As Integer, deltaX As Integer, deltaY As Integer) As Boolean</SourceLine>
     <SourceLine></SourceLine>
-    <SourceLine>SB_Vertical.Value = SB_Vertical.Value + SB_Vertical.LineStep * Sign(deltaY)</SourceLine>
+    <SourceLine>VerticalScrollbar.Value = VerticalScrollbar.Value + VerticalScrollbar.LineStep * Sign(deltaY)</SourceLine>
     <SourceLine>End Function</SourceLine>
    </ItemSource>
   </HookInstance>
@@ -1085,7 +1085,7 @@
     <TextEncoding>134217984</TextEncoding>
     <SourceLine>Function MouseWheel(x As Integer, y As Integer, deltaX As Integer, deltaY As Integer) As Boolean</SourceLine>
     <SourceLine></SourceLine>
-    <SourceLine>SB_Vertical.Value = SB_Vertical.Value + SB_Vertical.LineStep * Sign(deltaY)</SourceLine>
+    <SourceLine>VerticalScrollbar.Value = VerticalScrollbar.Value + VerticalScrollbar.LineStep * Sign(deltaY)</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>End Function</SourceLine>
    </ItemSource>
@@ -1175,9 +1175,9 @@
   <PropertyVal Name="LockTop">True</PropertyVal>
   <PropertyVal Name="MaximumCharactersAllowed">0</PropertyVal>
   <PropertyVal Name="Multiline">True</PropertyVal>
-  <PropertyVal Name="Name">TA_Cell</PropertyVal>
+  <PropertyVal Name="Name">CellTextArea</PropertyVal>
   <PropertyVal Name="ReadOnly">False</PropertyVal>
-  <PropertyVal Name="Scope">2</PropertyVal>
+  <PropertyVal Name="Scope">0</PropertyVal>
   <PropertyVal Name="Super">DesktopTextArea</PropertyVal>
   <PropertyVal Name="TabIndex">2</PropertyVal>
   <PropertyVal Name="TabPanelIndex">0</PropertyVal>
@@ -1218,7 +1218,7 @@
   <PropertyVal Name="LockTop">True</PropertyVal>
   <PropertyVal Name="MaximumValue">20</PropertyVal>
   <PropertyVal Name="MinimumValue">0</PropertyVal>
-  <PropertyVal Name="Name">SB_Vertical</PropertyVal>
+  <PropertyVal Name="Name">VerticalScrollbar</PropertyVal>
   <PropertyVal Name="PageStep">100</PropertyVal>
   <PropertyVal Name="PanelIndex">0</PropertyVal>
   <PropertyVal Name="Scope">0</PropertyVal>
