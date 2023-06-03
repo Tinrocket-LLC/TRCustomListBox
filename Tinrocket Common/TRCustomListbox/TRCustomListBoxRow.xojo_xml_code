@@ -2,7 +2,7 @@
 <RBProject version="2023r1.1" FormatVersion="2" MinIDEVersion="20210300">
 <block type="Module" ID="1260929023">
  <ObjName>TRCustomListBoxRow</ObjName>
- <ObjContainerID>0</ObjContainerID>
+ <ObjContainerID>91383807</ObjContainerID>
  <IsClass>1</IsClass>
  <ItemFlags>1</ItemFlags>
  <IsInterface>0</IsInterface>
@@ -34,16 +34,16 @@
   <PartID>1984763903</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Sub Subclass_DrawBackground(g as Graphics, rowIndex as Integer)</SourceLine>
+   <SourceLine>Function Subclass_DrawBackground(g as Graphics, rowIndex as Integer) As Boolean</SourceLine>
    <SourceLine>// Abstract</SourceLine>
-   <SourceLine>End Sub</SourceLine>
+   <SourceLine>End Function</SourceLine>
   </ItemSource>
   <TextEncoding>134217984</TextEncoding>
   <AliasName></AliasName>
   <ItemFlags>0</ItemFlags>
   <IsShared>0</IsShared>
   <ItemParams>g as Graphics, rowIndex as Integer</ItemParams>
-  <ItemResult></ItemResult>
+  <ItemResult>Boolean</ItemResult>
  </Method>
  <Property>
   <ItemName>Text</ItemName>

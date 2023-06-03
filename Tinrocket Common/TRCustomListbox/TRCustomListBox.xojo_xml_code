@@ -2,7 +2,7 @@
 <RBProject version="2023r1.1" FormatVersion="2" MinIDEVersion="20210300">
 <block type="DesktopWindow" ID="1261617151">
  <ObjName>TRCustomListBox</ObjName>
- <ObjContainerID>0</ObjContainerID>
+ <ObjContainerID>91383807</ObjContainerID>
  <IsClass>1</IsClass>
  <Superclass>DesktopContainer</Superclass>
  <ItemFlags>1</ItemFlags>
@@ -958,8 +958,12 @@
     <SourceLine>End</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>If i &lt;&gt; Self.EditedRowIndex Then // Don't draw edited row; there's a text area covering it</SourceLine>
+    <SourceLine>g.ClipToRectangle(0, 0, g.Width, row.ComputedHeight)</SourceLine>
+    <SourceLine></SourceLine>
     <SourceLine>Dim drawHighlight As Boolean = row &lt;&gt; editRow And row.Selected</SourceLine>
-    <SourceLine>If drawHighlight Then</SourceLine>
+    <SourceLine>Dim drawBackground As Boolean = row.Subclass_DrawBackground(g, i)</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>If drawBackground And drawHighlight Then</SourceLine>
     <SourceLine>g.DrawingColor = Color.HighlightColor</SourceLine>
     <SourceLine>g.FillRectangle(0, 0, g.Width, row.ComputedHeight)</SourceLine>
     <SourceLine>End</SourceLine>
