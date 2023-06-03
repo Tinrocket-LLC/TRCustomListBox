@@ -366,7 +366,7 @@
    <SourceLine>g.FontSize = Self.RowFontSize(row)</SourceLine>
    <SourceLine>lineHeight = Self.RowLineHeight(row, g.FontName, g.FontSize)</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Self.Update_TextArea(TA_RenderSource, row, False)</SourceLine>
+   <SourceLine>Self.Update_TextArea(TA_RenderSource, row)</SourceLine>
    <SourceLine>TA_RenderSource.Width = Self.RowTextAreaWidth(row)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>If row.Multiline Then</SourceLine>
@@ -443,7 +443,7 @@
    <SourceLine></SourceLine>
    <SourceLine>Dim row As TRCustomListBoxRow = Me.Rows(rowIndex)</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Self.Update_TextArea(CellTextArea, row, False)</SourceLine>
+   <SourceLine>Self.Update_TextArea(CellTextArea, row)</SourceLine>
    <SourceLine>Self.Update_TextArea_Location</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>RaiseEvent WillEditRow(row)</SourceLine>
@@ -492,7 +492,7 @@
   <PartID>1709473791</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Sub Update_TextArea(ta as DesktopTextArea, row as TRCustomListBoxRow, drawHighlight as Boolean)</SourceLine>
+   <SourceLine>Sub Update_TextArea(ta as DesktopTextArea, row as TRCustomListBoxRow)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>ta.Text = row.Text</SourceLine>
    <SourceLine>ta.FontName = Me.RowFontName(row)</SourceLine>
@@ -501,15 +501,6 @@
    <SourceLine>ta.LineSpacing = row.LineSpacing</SourceLine>
    <SourceLine>ta.TextColor = Me.RowFontColor(row)</SourceLine>
    <SourceLine>ta.TextAlignment = row.TextAlignment</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>// For platforms where we can't draw transparent text areas</SourceLine>
-   <SourceLine>// Disabled because we have solution for macOS and Windows, and would prefer a Declare solution for Linux</SourceLine>
-   <SourceLine>'If drawHighlight And row.Selected Then</SourceLine>
-   <SourceLine>'ta.BackgroundColor = Color.HighlightColor</SourceLine>
-   <SourceLine>'Else</SourceLine>
-   <SourceLine>'ta.BackgroundColor = Me.BackgroundColor</SourceLine>
-   <SourceLine>'End</SourceLine>
-   <SourceLine></SourceLine>
    <SourceLine>ta.MultiLine = row.Multiline</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
@@ -518,7 +509,7 @@
   <AliasName></AliasName>
   <ItemFlags>33</ItemFlags>
   <IsShared>0</IsShared>
-  <ItemParams>ta as DesktopTextArea, row as TRCustomListBoxRow, drawHighlight as Boolean</ItemParams>
+  <ItemParams>ta as DesktopTextArea, row as TRCustomListBoxRow</ItemParams>
   <ItemResult></ItemResult>
  </Method>
  <Method>
@@ -1018,16 +1009,22 @@
     <SourceLine></SourceLine>
     <SourceLine>g.ClipToRectangle(0, 0, g.Width, row.ComputedHeight)</SourceLine>
     <SourceLine></SourceLine>
-    <SourceLine>Dim drawHighlight As Boolean = row.Selected</SourceLine>
     <SourceLine>Dim rowDidDrawBackground As Boolean = row.Subclass_DrawBackground(Self, g, g.Width, row.ComputedHeight, i, row = editRow)</SourceLine>
     <SourceLine></SourceLine>
-    <SourceLine>If Not rowDidDrawBackground And drawHighlight Then</SourceLine>
+    <SourceLine>If Not rowDidDrawBackground And row.Selected Then</SourceLine>
+    <SourceLine>// Draw highlight</SourceLine>
     <SourceLine>g.DrawingColor = Color.HighlightColor</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>If row = editRow Then</SourceLine>
+    <SourceLine>// Modify highlight color</SourceLine>
+    <SourceLine>g.DrawingColor = Color.RGB(g.DrawingColor.Red, g.DrawingColor.Green, g.DrawingColor.Blue, 255 * 0.5)</SourceLine>
+    <SourceLine>End</SourceLine>
+    <SourceLine></SourceLine>
     <SourceLine>g.FillRectangle(0, 0, g.Width, row.ComputedHeight)</SourceLine>
     <SourceLine>End</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>If i &lt;&gt; Self.EditedRowIndex Then // Don't draw edited row; there's a text area covering it</SourceLine>
-    <SourceLine>Self.Update_TextArea(TA_RenderSource, row, drawHighlight)</SourceLine>
+    <SourceLine>Self.Update_TextArea(TA_RenderSource, row)</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>TA_RenderSource.Height = row.ComputedHeight</SourceLine>
     <SourceLine>TA_RenderSource.Width = Self.RowTextAreaWidth(row)</SourceLine>

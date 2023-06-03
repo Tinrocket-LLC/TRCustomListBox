@@ -131,6 +131,7 @@ End
 		    row = New TRCustomListBoxRow(openings(i))
 		    row.Editable = True
 		    row.EditableWithSinglePress = True
+		    row.Selectable = False
 		    row.LineSpacing = 1.5
 		    row.WordWrap = True
 		    row.Multiline = True
@@ -149,6 +150,15 @@ End
 
 #tag EndWindowCode
 
+#tag Events TRCLB_Demo
+	#tag Event
+		Sub WillEditRow(row as TRCustomListBoxRow)
+		  
+		  Me.DeselectAll
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag ViewBehavior
 	#tag ViewProperty
 		Name="Name"

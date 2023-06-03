@@ -10,7 +10,7 @@ Begin DesktopWindow W_DemoChat
    HasFullScreenButton=   False
    HasMaximizeButton=   True
    HasMinimizeButton=   True
-   Height          =   400
+   Height          =   600
    ImplicitInstance=   True
    MacProcID       =   0
    MaximumHeight   =   32000
@@ -23,7 +23,7 @@ Begin DesktopWindow W_DemoChat
    Title           =   "Chat (TRCustomListBox)"
    Type            =   0
    Visible         =   True
-   Width           =   600
+   Width           =   400
    Begin TRCustomListBox TRCLB_Chat
       AllowAutoDeactivate=   True
       AllowFocus      =   False
@@ -37,7 +37,7 @@ Begin DesktopWindow W_DemoChat
       FontName        =   "System"
       FontSize        =   12
       HasBackgroundColor=   True
-      Height          =   400
+      Height          =   600
       Index           =   -2147483648
       InitialParent   =   ""
       Left            =   0
@@ -47,7 +47,7 @@ Begin DesktopWindow W_DemoChat
       LockRight       =   True
       LockTop         =   True
       RowHeight       =   -1
-      Scope           =   0
+      Scope           =   2
       TabIndex        =   0
       TabPanelIndex   =   0
       TabStop         =   True
@@ -55,7 +55,7 @@ Begin DesktopWindow W_DemoChat
       Top             =   0
       Transparent     =   True
       Visible         =   True
-      Width           =   600
+      Width           =   400
    End
 End
 #tag EndDesktopWindow
