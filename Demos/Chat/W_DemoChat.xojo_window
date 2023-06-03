@@ -127,7 +127,7 @@ End
 		Function KeyDown(key As String) As Boolean
 		  
 		  If key = Chr(3) Or key = Chr(13) Then
-		    If Not Keyboard.AsyncShiftKey Then
+		    If Not Keyboard.ShiftKey Then
 		      // Commit input
 		      
 		      Dim cInput As New ChatBubbleCustomListBoxRow(Me.Text)

@@ -9,7 +9,7 @@ Inherits TRCustomListBoxRow
 		  Me.MarginLeft = 10
 		  Me.MarginRight = 10
 		  Me.MarginTop = 10
-		  Me.MarginBottom = 15
+		  Me.MarginBottom = 150
 		  
 		  Me.FontSize = 16
 		  
@@ -19,12 +19,19 @@ Inherits TRCustomListBoxRow
 		  Me.WordWrap = True
 		  Me.Multiline = True
 		  
+		  Me.Selectable = True
+		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function Subclass_DrawBackground(listBox as TRCustomListBox, g as Graphics, visibleWidth as Double, visibleHeight as Double, rowIndex as Integer) As Boolean
 		  Dim scrollbarWidth As Double
+		  
+		  If Me.Selected Then
+		    g.DrawingColor = Color.HighlightColor
+		    g.FillRectangle(0, 0, visibleWidth, visibleHeight)
+		  End
 		  
 		  'If listBox.VerticalScrollbar.Visible Then
 		  scrollbarWidth = listBox.VerticalScrollbar.Width
@@ -34,8 +41,11 @@ Inherits TRCustomListBoxRow
 		  Static kBorder As Double = 5
 		  
 		  g.DrawingColor = Color.RGB(0, 0, 0, 255 * 0.9)
-		  
 		  g.FillRoundRectangle(kBorder, kBorder, visibleWidth - scrollbarWidth - kBorder * 2, visibleHeight - kBorder * 2, kRadius, kRadius)
+		  
+		  System.DebugLog(Str(rowIndex))
+		  
+		  Return True
 		  
 		End Function
 	#tag EndMethod

@@ -34,7 +34,7 @@
    <SourceLine>CellTextArea.Transparent = True</SourceLine>
    <SourceLine>TA_RenderSource.Transparent = True</SourceLine>
    <SourceLine>#ElseIf TargetLinux</SourceLine>
-   <SourceLine>// TODO: Need Declares to make TextArea transparent</SourceLine>
+   <SourceLine>// TODO: Need Declares solution to make a transparent TextArea</SourceLine>
    <SourceLine>#EndIf</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
@@ -172,7 +172,7 @@
    <SourceLine>row.Selected = True</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>If row.Editable Then</SourceLine>
+   <SourceLine>If row.Editable and not Keyboard.ShiftKey Then</SourceLine>
    <SourceLine>If row.EditableWithSinglePress Or doublePress Then</SourceLine>
    <SourceLine>Self.EditRow(pressedRowIndex)</SourceLine>
    <SourceLine>End</SourceLine>
@@ -955,10 +955,10 @@
     <SourceLine>g.Translate(Self.ContentOffset.X, Self.ContentOffset.Y)</SourceLine>
     <SourceLine>runningY = Self.ContentOffset.Y</SourceLine>
     <SourceLine></SourceLine>
-    <SourceLine>Dim editRow As TRCustomListBoxRow</SourceLine>
-    <SourceLine>If Not Self.EditedRowIndex &lt; 0 Then</SourceLine>
-    <SourceLine>editRow = Self.Rows(Self.EditedRowIndex)</SourceLine>
-    <SourceLine>End</SourceLine>
+    <SourceLine>'Dim editRow As TRCustomListBoxRow</SourceLine>
+    <SourceLine>'If Not Self.EditedRowIndex &lt; 0 Then</SourceLine>
+    <SourceLine>'editRow = Self.Rows(Self.EditedRowIndex)</SourceLine>
+    <SourceLine>'End</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>For i = 0 To Self.Rows.LastIndex</SourceLine>
     <SourceLine>Dim row As TRCustomListBoxRow = Self.Rows(i)</SourceLine>
@@ -971,21 +971,17 @@
     <SourceLine>Return // Stop drawing</SourceLine>
     <SourceLine>End</SourceLine>
     <SourceLine></SourceLine>
-    <SourceLine>If i &lt;&gt; Self.EditedRowIndex Then // Don't draw edited row; there's a text area covering it</SourceLine>
     <SourceLine>g.ClipToRectangle(0, 0, g.Width, row.ComputedHeight)</SourceLine>
     <SourceLine></SourceLine>
-    <SourceLine>Dim drawHighlight As Boolean = row &lt;&gt; editRow And row.Selected</SourceLine>
-    <SourceLine>Dim drawBackground As Boolean = row.Subclass_DrawBackground(Self, g, g.Width, row.ComputedHeight, i)</SourceLine>
+    <SourceLine>Dim drawHighlight As Boolean = row.Selected</SourceLine>
+    <SourceLine>Dim rowDidDrawBackground As Boolean = row.Subclass_DrawBackground(Self, g, g.Width, row.ComputedHeight, i)</SourceLine>
     <SourceLine></SourceLine>
-    <SourceLine>If drawBackground And drawHighlight Then</SourceLine>
+    <SourceLine>If Not rowDidDrawBackground And drawHighlight Then</SourceLine>
     <SourceLine>g.DrawingColor = Color.HighlightColor</SourceLine>
     <SourceLine>g.FillRectangle(0, 0, g.Width, row.ComputedHeight)</SourceLine>
     <SourceLine>End</SourceLine>
     <SourceLine></SourceLine>
-    <SourceLine>g.DrawingColor = Self.RowFontColor(row)</SourceLine>
-    <SourceLine>g.FontName = Self.RowFontName(row)</SourceLine>
-    <SourceLine>g.FontSize = Self.RowFontSize(row)</SourceLine>
-    <SourceLine></SourceLine>
+    <SourceLine>If i &lt;&gt; Self.EditedRowIndex Then // Don't draw edited row; there's a text area covering it</SourceLine>
     <SourceLine>Self.Update_TextArea(TA_RenderSource, row, drawHighlight)</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>TA_RenderSource.Height = row.ComputedHeight</SourceLine>
