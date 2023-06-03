@@ -376,6 +376,7 @@
    <SourceLine></SourceLine>
    <SourceLine>Dim lineCount As Integer = TA_RenderSource.LineNumber(TA_RenderSource.Text.Length) + 1</SourceLine>
    <SourceLine></SourceLine>
+   <SourceLine>row.ComputedLineCount = lineCount</SourceLine>
    <SourceLine>row.ComputedTextHeight = Ceil(lineCount * g.TextHeight * TA_RenderSource.LineSpacing)</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
@@ -536,13 +537,13 @@
   <ItemResult>TRCustomListBoxRow</ItemResult>
  </Method>
  <Method>
-  <ItemName>TextAreaForRowDrawing</ItemName>
+  <ItemName>InternalRenderControl</ItemName>
   <Compatibility></Compatibility>
   <Visible>1</Visible>
   <PartID>1734148095</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Function TextAreaForRowDrawing(row as TRCustomListBoxRow) As DesktopTextArea</SourceLine>
+   <SourceLine>Function InternalRenderControl(row as TRCustomListBoxRow) As DesktopTextArea</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Me.Update_TextArea(TA_RenderSource, row)</SourceLine>
    <SourceLine></SourceLine>
@@ -556,6 +557,31 @@
   <IsShared>0</IsShared>
   <ItemParams>row as TRCustomListBoxRow</ItemParams>
   <ItemResult>DesktopTextArea</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>InternalRenderGraphics</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1698465791</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function InternalRenderGraphics(row as TRCustomListBoxRow) As Graphics</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Me.FontCalculatorGraphics.FontName = Me.RowFontName(row)</SourceLine>
+   <SourceLine>Me.FontCalculatorGraphics.FontSize = Me.RowFontSize(row)</SourceLine>
+   <SourceLine>Me.FontCalculatorGraphics.DrawingColor = Me.RowFontColor(row)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return Me.FontCalculatorGraphics</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>row as TRCustomListBoxRow</ItemParams>
+  <ItemResult>Graphics</ItemResult>
  </Method>
  <Hook>
   <ItemName>Resizing</ItemName>
