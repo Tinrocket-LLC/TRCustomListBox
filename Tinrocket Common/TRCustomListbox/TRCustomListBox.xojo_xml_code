@@ -25,6 +25,13 @@
    <SourceLine>CellTextArea.BackgroundColor = Color.Clear</SourceLine>
    <SourceLine>TA_RenderSource.BackgroundColor = Color.Clear</SourceLine>
    <SourceLine></SourceLine>
+   <SourceLine>#If TargetMacOS</SourceLine>
+   <SourceLine>Declare Sub setDrawsBackground Lib "AppKit" Selector "setDrawsBackground:" (id As Ptr, b As Boolean)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>setDrawsBackground(CellTextArea.Handle, False)</SourceLine>
+   <SourceLine>setDrawsBackground(TA_RenderSource.Handle, False)</SourceLine>
+   <SourceLine>#EndIf</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
  </HookInstance>
