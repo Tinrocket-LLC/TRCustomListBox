@@ -1,6 +1,30 @@
 #tag Class
 Protected Class ChatBubbleCustomListBoxRow
 Inherits TRCustomListBoxRow
+	#tag Method, Flags = &h21
+		Private Shared Function BubblePath() As GraphicsPath
+		  // Approximate, but not a squircle
+		  Dim p As GraphicsPath = New GraphicsPath
+		  
+		  Dim cornerRadius As Double = 16
+		  Dim cornerRadius As Double = 16
+		  Dim cornerRadius As Double = 16
+		  
+		  p.MoveToPoint(84, 0)
+		  p.AddLineToPoint(16, 0)
+		  p.AddCurveToPoint(7.2, 0, 0, 7.2, 0, 16)
+		  p.AddLineToPoint(0, 84)
+		  p.AddCurveToPoint(0, 92.8, 7.2, 100, 16, 100)
+		  p.AddLineToPoint(84, 100)
+		  p.AddCurveToPoint(92.8, 100, 100, 92.8, 100, 84)
+		  p.AddLineToPoint(100, 16)
+		  p.AddCurveToPoint(100, 7.2, 92.8, 0, 84, 0)
+		  
+		  Return p
+		  
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Sub Constructor(s as String = "")
 		  
@@ -37,7 +61,13 @@ Inherits TRCustomListBoxRow
 		  // Wonky calculations
 		  If Me.TextAlignment = TextAlignments.Left Then
 		    g.DrawingColor = Color.RGB(0, 0, 0, 255 * 0.9)
-		    g.FillRoundRectangle(Me.MarginLeft - kBorder, kBorder, Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, kRadius, kRadius)
+		    'g.FillRoundRectangle(Me.MarginLeft - kBorder, kBorder, Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, kRadius, kRadius)
+		    
+		    g.SaveState
+		    g.Translate(Me.MarginLeft - kBorder, kBorder)
+		    g.FillPath(ChatBubbleCustomListBoxRow.BubblePath)
+		    
+		    g.RestoreState
 		  ElseIf Me.TextAlignment = TextAlignments.Right Then 
 		    g.DrawingColor = &c5db4fa
 		    Dim additionalLeftMargin As Double = visibleWidth - Me.MarginLeft - Me.MarginRight - Me.BubbleWidth
