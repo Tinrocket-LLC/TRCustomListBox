@@ -49,6 +49,8 @@
    <TextEncoding>134217984</TextEncoding>
    <SourceLine>Sub Resizing()</SourceLine>
    <SourceLine></SourceLine>
+   <SourceLine>RaiseEvent Resizing</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>Me.Update(True)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>TA_RenderSource.Left = Me.Width + 100</SourceLine>
@@ -515,6 +517,14 @@
   <ItemParams>ta as DesktopTextArea, row as TRCustomListBoxRow, drawHighlight as Boolean</ItemParams>
   <ItemResult></ItemResult>
  </Method>
+ <Hook>
+  <ItemName>Resizing</ItemName>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemFlags>33</ItemFlags>
+  <SystemFlags>0</SystemFlags>
+  <ItemParams></ItemParams>
+  <ItemResult></ItemResult>
+ </Hook>
  <Property>
   <ItemName>Rows(-1)</ItemName>
   <Compatibility></Compatibility>
@@ -955,10 +965,10 @@
     <SourceLine>g.Translate(Self.ContentOffset.X, Self.ContentOffset.Y)</SourceLine>
     <SourceLine>runningY = Self.ContentOffset.Y</SourceLine>
     <SourceLine></SourceLine>
-    <SourceLine>'Dim editRow As TRCustomListBoxRow</SourceLine>
-    <SourceLine>'If Not Self.EditedRowIndex &lt; 0 Then</SourceLine>
-    <SourceLine>'editRow = Self.Rows(Self.EditedRowIndex)</SourceLine>
-    <SourceLine>'End</SourceLine>
+    <SourceLine>Dim editRow As TRCustomListBoxRow</SourceLine>
+    <SourceLine>If Not Self.EditedRowIndex &lt; 0 Then</SourceLine>
+    <SourceLine>editRow = Self.Rows(Self.EditedRowIndex)</SourceLine>
+    <SourceLine>End</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>For i = 0 To Self.Rows.LastIndex</SourceLine>
     <SourceLine>Dim row As TRCustomListBoxRow = Self.Rows(i)</SourceLine>
@@ -974,7 +984,7 @@
     <SourceLine>g.ClipToRectangle(0, 0, g.Width, row.ComputedHeight)</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>Dim drawHighlight As Boolean = row.Selected</SourceLine>
-    <SourceLine>Dim rowDidDrawBackground As Boolean = row.Subclass_DrawBackground(Self, g, g.Width, row.ComputedHeight, i)</SourceLine>
+    <SourceLine>Dim rowDidDrawBackground As Boolean = row.Subclass_DrawBackground(Self, g, g.Width, row.ComputedHeight, i, row = editRow)</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>If Not rowDidDrawBackground And drawHighlight Then</SourceLine>
     <SourceLine>g.DrawingColor = Color.HighlightColor</SourceLine>

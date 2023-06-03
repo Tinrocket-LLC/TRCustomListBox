@@ -111,17 +111,53 @@ End
 	#tag Event
 		Sub Opening()
 		  
-		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("Bloop."))
-		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("Bloop!"))
-		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("Heh, heh, Bloop!"))
+		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("What have I got in my pocket?"))
+		  
+		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("Not fair! not fair!"))
+		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("It isn't fair, my precious, is it, to ask us what it's got in its nassty little pocketses?"))
+		  
+		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("What have I got in my pocket?"))
+		  
+		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("S-s-s-s-s, it must give us three guesseses, my precious, three guesseses."))
+		  
+		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("Very well! Guess away!"))
+		  
+		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("Handses!"))
+		  
+		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("Wrong, guess again!"))
+		  
+		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("S-s-s-s-s"))
+		  
+		  Me.AdjustRowWidths
 		  
 		  TRCLB_Chat.Update
 		End Sub
 	#tag EndEvent
 
 
+	#tag Method, Flags = &h0
+		Sub AdjustRowWidths()
+		  Dim w As Double = Me.Width
+		  
+		  For Each row As TRCustomListBoxRow In TRCLB_Chat.Rows
+		    ChatBubbleCustomListBoxRow(row).UpdateWidth(w)
+		  Next
+		  
+		End Sub
+	#tag EndMethod
+
+
 #tag EndWindowCode
 
+#tag Events TRCLB_Chat
+	#tag Event
+		Sub Resizing()
+		  
+		  Self.AdjustRowWidths
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag Events TA_Input
 	#tag Event
 		Function KeyDown(key As String) As Boolean

@@ -34,7 +34,7 @@
   <PartID>1984763903</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Function Subclass_DrawBackground(listBox as TRCustomListBox, g as Graphics, visibleWidth as Double, visibleHeight as Double, rowIndex as Integer) As Boolean</SourceLine>
+   <SourceLine>Function Subclass_DrawBackground(listBox as TRCustomListBox, g as Graphics, visibleWidth as Double, visibleHeight as Double, rowIndex as Integer, editing as Boolean) As Boolean</SourceLine>
    <SourceLine>// Abstract</SourceLine>
    <SourceLine>End Function</SourceLine>
   </ItemSource>
@@ -42,7 +42,7 @@
   <AliasName></AliasName>
   <ItemFlags>0</ItemFlags>
   <IsShared>0</IsShared>
-  <ItemParams>listBox as TRCustomListBox, g as Graphics, visibleWidth as Double, visibleHeight as Double, rowIndex as Integer</ItemParams>
+  <ItemParams>listBox as TRCustomListBox, g as Graphics, visibleWidth as Double, visibleHeight as Double, rowIndex as Integer, editing as Boolean</ItemParams>
   <ItemResult>Boolean</ItemResult>
  </Method>
  <Property>

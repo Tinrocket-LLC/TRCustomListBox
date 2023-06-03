@@ -9,26 +9,26 @@ Inherits TRCustomListBoxRow
 		  Me.MarginLeft = 10
 		  Me.MarginRight = 10
 		  Me.MarginTop = 10
-		  Me.MarginBottom = 150
+		  Me.MarginBottom = 15
 		  
 		  Me.FontSize = 16
-		  
-		  Me.Editable = True
-		  Me.EditableWithSinglePress = True
 		  
 		  Me.WordWrap = True
 		  Me.Multiline = True
 		  
-		  Me.Selectable = True
+		  Me.Selectable = False
+		  
+		  'Me.Editable = True
+		  'Me.EditableWithSinglePress = True
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Subclass_DrawBackground(listBox as TRCustomListBox, g as Graphics, visibleWidth as Double, visibleHeight as Double, rowIndex as Integer) As Boolean
+		Function Subclass_DrawBackground(listBox as TRCustomListBox, g as Graphics, visibleWidth as Double, visibleHeight as Double, rowIndex as Integer, editing as Boolean) As Boolean
 		  Dim scrollbarWidth As Double
 		  
-		  If Me.Selected Then
+		  If Not editing And Me.Selected Then
 		    g.DrawingColor = Color.HighlightColor
 		    g.FillRectangle(0, 0, visibleWidth, visibleHeight)
 		  End
@@ -41,7 +41,7 @@ Inherits TRCustomListBoxRow
 		  Static kBorder As Double = 5
 		  
 		  g.DrawingColor = Color.RGB(0, 0, 0, 255 * 0.9)
-		  g.FillRoundRectangle(kBorder, kBorder, visibleWidth - scrollbarWidth - kBorder * 2, visibleHeight - kBorder * 2, kRadius, kRadius)
+		  g.FillRoundRectangle(kBorder, kBorder, visibleWidth * kWidthFraction, visibleHeight - kBorder * 2, kRadius, kRadius)
 		  
 		  System.DebugLog(Str(rowIndex))
 		  
@@ -49,6 +49,18 @@ Inherits TRCustomListBoxRow
 		  
 		End Function
 	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub UpdateWidth(width as Double)
+		  
+		  Me.MarginRight = width * (1 - kWidthFraction)
+		  
+		End Sub
+	#tag EndMethod
+
+
+	#tag Constant, Name = kWidthFraction, Type = Double, Dynamic = False, Default = \"0.6", Scope = Private
+	#tag EndConstant
 
 
 	#tag ViewBehavior
