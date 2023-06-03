@@ -1,9 +1,9 @@
 #tag DesktopWindow
-Begin DesktopWindow W_Harness
+Begin DesktopWindow W_DemoWonderland
    Backdrop        =   0
    BackgroundColor =   &cFFFFFF
    Composite       =   False
-   DefaultLocation =   2
+   DefaultLocation =   4
    FullScreen      =   False
    HasBackgroundColor=   False
    HasCloseButton  =   True
@@ -20,7 +20,7 @@ Begin DesktopWindow W_Harness
    MinimumHeight   =   64
    MinimumWidth    =   64
    Resizeable      =   True
-   Title           =   "TRCustomListBox"
+   Title           =   "Alice in Wonderland (TRCustomListBox)"
    Type            =   0
    Visible         =   True
    Width           =   600
