@@ -9,7 +9,7 @@ Inherits TRCustomListBoxRow
 		  Me.MarginLeft = 10
 		  Me.MarginRight = 10
 		  Me.MarginTop = 10
-		  Me.MarginBottom = 10
+		  Me.MarginBottom = 15
 		  
 		  Me.FontSize = 16
 		  

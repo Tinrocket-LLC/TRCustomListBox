@@ -30,6 +30,11 @@
    <SourceLine></SourceLine>
    <SourceLine>setDrawsBackground(CellTextArea.Handle, False)</SourceLine>
    <SourceLine>setDrawsBackground(TA_RenderSource.Handle, False)</SourceLine>
+   <SourceLine>#ElseIf TargetWindows</SourceLine>
+   <SourceLine>CellTextArea.Transparent = True</SourceLine>
+   <SourceLine>TA_RenderSource.Transparent = True</SourceLine>
+   <SourceLine>#ElseIf TargetLinux</SourceLine>
+   <SourceLine>// TODO: Need Declares to make TextArea transparent</SourceLine>
    <SourceLine>#EndIf</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
@@ -491,13 +496,13 @@
    <SourceLine>ta.TextColor = Me.RowFontColor(row)</SourceLine>
    <SourceLine>ta.TextAlignment = row.TextAlignment</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>If drawHighlight And row.Selected Then</SourceLine>
-   <SourceLine>ta.BackgroundColor = Color.HighlightColor</SourceLine>
-   <SourceLine>Else</SourceLine>
-   <SourceLine>ta.BackgroundColor = Me.BackgroundColor</SourceLine>
-   <SourceLine>End</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>ta.BackgroundColor = Color.Clear</SourceLine>
+   <SourceLine>// For platforms where we can't draw transparent text areas</SourceLine>
+   <SourceLine>// Disabled because we have solution for macOS and Windows, and would prefer a Declare solution for Linux</SourceLine>
+   <SourceLine>'If drawHighlight And row.Selected Then</SourceLine>
+   <SourceLine>'ta.BackgroundColor = Color.HighlightColor</SourceLine>
+   <SourceLine>'Else</SourceLine>
+   <SourceLine>'ta.BackgroundColor = Me.BackgroundColor</SourceLine>
+   <SourceLine>'End</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>ta.MultiLine = row.Multiline</SourceLine>
    <SourceLine></SourceLine>
