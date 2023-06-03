@@ -54,7 +54,6 @@
    <SourceLine>Me.Update(True)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>TA_RenderSource.Left = Me.Width + 100</SourceLine>
-   <SourceLine>CellTextArea.Left = Me.Width + 100</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
@@ -1292,7 +1291,7 @@
   <PropertyVal Name="Underline">False</PropertyVal>
   <PropertyVal Name="UnicodeMode">1</PropertyVal>
   <PropertyVal Name="ValidationMask"></PropertyVal>
-  <PropertyVal Name="Visible">True</PropertyVal>
+  <PropertyVal Name="Visible">False</PropertyVal>
   <PropertyVal Name="Width">100</PropertyVal>
   <ControlIndex>1</ControlIndex>
   <Locked>0</Locked>
