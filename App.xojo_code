@@ -9,7 +9,7 @@ Inherits DesktopApplication
 		  W_DemoWonderland.Top = 75
 		  
 		  W_DemoWonderland.Show
-		  W_DemoChat.Show
+		  W_DemoChatBubbles.Show
 		  
 		  
 		End Sub

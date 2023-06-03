@@ -1,5 +1,5 @@
 #tag DesktopWindow
-Begin DesktopWindow W_DemoChat
+Begin DesktopWindow W_DemoChatBubbles
    Backdrop        =   0
    BackgroundColor =   &cFFFFFF
    Composite       =   False
@@ -20,7 +20,7 @@ Begin DesktopWindow W_DemoChat
    MinimumHeight   =   64
    MinimumWidth    =   64
    Resizeable      =   True
-   Title           =   "Chat (TRCustomListBox)"
+   Title           =   "Chat Bubbles (TRCustomListBox)"
    Type            =   0
    Visible         =   True
    Width           =   400
