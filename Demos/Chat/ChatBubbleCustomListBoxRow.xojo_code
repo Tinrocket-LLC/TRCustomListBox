@@ -6,8 +6,8 @@ Inherits TRCustomListBoxRow
 		  
 		  Super.Constructor(s)
 		  
-		  Me.MarginLeft = 10
-		  Me.MarginRight = 10
+		  Me.MarginLeft = 20
+		  Me.MarginRight = 20
 		  Me.MarginTop = 10
 		  Me.MarginBottom = 15
 		  
@@ -26,22 +26,21 @@ Inherits TRCustomListBoxRow
 
 	#tag Method, Flags = &h0
 		Function Subclass_DrawBackground(listBox as TRCustomListBox, g as Graphics, visibleWidth as Double, visibleHeight as Double, rowIndex as Integer, editing as Boolean) As Boolean
-		  Dim scrollbarWidth As Double
+		  Static kRadius As Double = 20
+		  Static kBorder As Double = 5
 		  
 		  If Not editing And Me.Selected Then
 		    g.DrawingColor = Color.HighlightColor
 		    g.FillRectangle(0, 0, visibleWidth, visibleHeight)
 		  End
 		  
-		  'If listBox.VerticalScrollbar.Visible Then
-		  scrollbarWidth = listBox.VerticalScrollbar.Width
-		  'End
+		  If Me.TextAlignment = TextAlignments.Left Then
+		    g.DrawingColor = Color.RGB(0, 0, 0, 255 * 0.9)
+		  ElseIf Me.TextAlignment = TextAlignments.Right Then 
+		    g.DrawingColor = &c5db4fa
+		  End
 		  
-		  Static kRadius As Double = 10
-		  Static kBorder As Double = 5
-		  
-		  g.DrawingColor = Color.RGB(0, 0, 0, 255 * 0.9)
-		  g.FillRoundRectangle(kBorder, kBorder, visibleWidth * kWidthFraction, visibleHeight - kBorder * 2, kRadius, kRadius)
+		  g.FillRoundRectangle(Me.MarginLeft - kBorder, kBorder, visibleWidth - Me.MarginLeft - Me.MarginRight, visibleHeight - kBorder * 2, kRadius, kRadius)
 		  
 		  System.DebugLog(Str(rowIndex))
 		  
@@ -56,7 +55,7 @@ Inherits TRCustomListBoxRow
 		  
 		  If Me.TextAlignment = TextAlignments.Left Then
 		    Me.MarginRight = adjustedWidth
-		  ElseIf Me.TextAlignment = TextAlignments.Left Then 
+		  ElseIf Me.TextAlignment = TextAlignments.Right Then 
 		    Me.MarginLeft = adjustedWidth
 		  End
 		  

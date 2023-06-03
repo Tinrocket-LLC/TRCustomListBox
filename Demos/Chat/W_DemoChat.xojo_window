@@ -124,7 +124,6 @@ End
 		  row.TextAlignment = TextAlignments.Left
 		  TRCLB_Chat.Rows.Add(row)
 		  
-		  
 		  row = New ChatBubbleCustomListBoxRow("What have I got in my pocket?")
 		  row.TextAlignment = TextAlignments.Right
 		  TRCLB_Chat.Rows.Add(row)
