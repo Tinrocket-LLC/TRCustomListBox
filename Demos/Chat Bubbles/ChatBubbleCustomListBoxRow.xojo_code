@@ -13,7 +13,7 @@ Inherits TRCustomListBoxRow
 		  If direction < 0 Then
 		    leftPoint = -0.5
 		  Else
-		    leftPoint = -0.5
+		    rightPoint = -0.5
 		  End
 		  
 		  p.MoveToPoint(bubbleWidth - cornerRadius, 0)
@@ -64,29 +64,27 @@ Inherits TRCustomListBoxRow
 		    g.FillRectangle(0, 0, visibleWidth, visibleHeight)
 		  End
 		  
-		  Dim path As GraphicsPath
+		  Dim direction As Integer = 1
 		  
 		  g.SaveState
 		  
 		  // Some wonky calculations
 		  If Me.TextAlignment = TextAlignments.Left Then
 		    g.DrawingColor = Color.RGB(0, 0, 0, 255 * 0.9)
-		    // g.FillRoundRectangle(Me.MarginLeft - kBorder, kBorder, Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, kRadius, kRadius // Simple round rect)
-		    
 		    g.Translate(Me.MarginLeft - kBorder, kBorder)
-		    path = ChatBubbleCustomListBoxRow.BubblePath(Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, -1)
-		    g.FillPath(path)
+		    direction = -1
 		    
+		    // g.FillRoundRectangle(Me.MarginLeft - kBorder, kBorder, Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, kRadius, kRadius // Simple round rect)
 		  ElseIf Me.TextAlignment = TextAlignments.Right Then 
 		    g.DrawingColor = &c5db4fa
 		    Dim additionalLeftMargin As Double = visibleWidth - Me.MarginLeft - Me.MarginRight - Me.BubbleWidth
-		    
 		    g.Translate(Me.MarginLeft + additionalLeftMargin - kBorder * 6, kBorder)
-		    path = ChatBubbleCustomListBoxRow.BubblePath(Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, 1)
-		    g.FillPath(path)
 		    
-		    'g.FillRoundRectangle(Me.MarginLeft + additionalLeftMargin - kBorder * 6, kBorder, Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, kRadius, kRadius) // Simple round rect)
+		    //g.FillRoundRectangle(Me.MarginLeft + additionalLeftMargin - kBorder * 6, kBorder, Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, kRadius, kRadius) // Simple round rect)
 		  End
+		  
+		  Dim path As GraphicsPath = ChatBubbleCustomListBoxRow.BubblePath(Me.BubbleWidth + kBorder * 4, visibleHeight - kBorder * 2, direction)
+		  g.FillPath(path)
 		  
 		  g.RestoreState
 		  
