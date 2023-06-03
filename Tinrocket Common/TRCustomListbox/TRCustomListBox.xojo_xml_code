@@ -54,6 +54,7 @@
    <SourceLine>Me.Update(True)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>TA_RenderSource.Left = Me.Width + 100</SourceLine>
+   <SourceLine>CellTextArea.Left = Me.Width + 100</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
