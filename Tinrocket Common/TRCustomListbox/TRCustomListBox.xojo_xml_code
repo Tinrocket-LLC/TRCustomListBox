@@ -167,6 +167,8 @@
    <SourceLine>Dim i As Integer</SourceLine>
    <SourceLine>Dim row As TRCustomListBoxRow = Me.Rows(pressedRowIndex)</SourceLine>
    <SourceLine></SourceLine>
+   <SourceLine>Me.EditRowEnd</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>If row.Selectable Then</SourceLine>
    <SourceLine>// TODO: Single row selection for now</SourceLine>
    <SourceLine>Me.DeselectAll(False)</SourceLine>
@@ -174,9 +176,9 @@
    <SourceLine>row.Selected = True</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>If row.Editable and not Keyboard.ShiftKey Then</SourceLine>
+   <SourceLine>If row.Editable And Not Keyboard.ShiftKey Then</SourceLine>
    <SourceLine>If row.EditableWithSinglePress Or doublePress Then</SourceLine>
-   <SourceLine>Self.EditRow(pressedRowIndex)</SourceLine>
+   <SourceLine>Self.EditRowBegin(pressedRowIndex)</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
@@ -213,8 +215,6 @@
    <SourceLine>If doRefresh Then</SourceLine>
    <SourceLine>C_Content.Refresh</SourceLine>
    <SourceLine>End</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>Me.EditedRowIndex = -1</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
@@ -427,13 +427,13 @@
   <ItemResult></ItemResult>
  </Method>
  <Method>
-  <ItemName>EditRow</ItemName>
+  <ItemName>EditRowBegin</ItemName>
   <Compatibility></Compatibility>
   <Visible>1</Visible>
   <PartID>1556727807</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Sub EditRow(rowIndex as Integer)</SourceLine>
+   <SourceLine>Sub EditRowBegin(rowIndex as Integer)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Self.EditedRowIndex = rowIndex</SourceLine>
    <SourceLine></SourceLine>
@@ -582,6 +582,27 @@
   <IsShared>0</IsShared>
   <ItemParams>row as TRCustomListBoxRow</ItemParams>
   <ItemResult>Graphics</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>EditRowEnd</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>824287231</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub EditRowEnd()</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>CellTextArea.Visible = False</SourceLine>
+   <SourceLine>Me.EditedRowIndex = -1</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult></ItemResult>
  </Method>
  <Hook>
   <ItemName>Resizing</ItemName>

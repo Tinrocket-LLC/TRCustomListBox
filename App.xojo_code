@@ -7,9 +7,9 @@ Inherits DesktopApplication
 		  // Pre-seed the coordinates or else Stagger placement will put the window under the menu bar
 		  W_DemoWonderland.Left = 100
 		  W_DemoWonderland.Top = 75
-		  
 		  W_DemoWonderland.Show
-		  W_DemoChatBubbles.Show
+		  
+		  'W_DemoChatBubbles.Show
 		  
 		  
 		End Sub

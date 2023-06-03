@@ -10,7 +10,7 @@ Begin DesktopWindow W_DemoWonderland
    HasFullScreenButton=   False
    HasMaximizeButton=   True
    HasMinimizeButton=   True
-   Height          =   400
+   Height          =   600
    ImplicitInstance=   True
    MacProcID       =   0
    MaximumHeight   =   32000
@@ -23,7 +23,7 @@ Begin DesktopWindow W_DemoWonderland
    Title           =   "Alice in Wonderland (TRCustomListBox)"
    Type            =   0
    Visible         =   True
-   Width           =   600
+   Width           =   800
    Begin TRCustomListBox TRCLB_Demo
       AllowAutoDeactivate=   True
       AllowFocus      =   False
@@ -37,7 +37,7 @@ Begin DesktopWindow W_DemoWonderland
       FontName        =   "System"
       FontSize        =   12
       HasBackgroundColor=   True
-      Height          =   400
+      Height          =   600
       Index           =   -2147483648
       InitialParent   =   ""
       Left            =   0
@@ -55,7 +55,7 @@ Begin DesktopWindow W_DemoWonderland
       Top             =   0
       Transparent     =   True
       Visible         =   True
-      Width           =   600
+      Width           =   800
    End
 End
 #tag EndDesktopWindow
