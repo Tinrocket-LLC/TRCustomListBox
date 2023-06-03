@@ -108,6 +108,18 @@ End
 #tag EndDesktopWindow
 
 #tag WindowCode
+	#tag Event
+		Sub Opening()
+		  
+		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("Bloop."))
+		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("Bloop!"))
+		  TRCLB_Chat.Rows.Add(New ChatBubbleCustomListBoxRow("Heh, heh, Bloop!"))
+		  
+		  TRCLB_Chat.Update
+		End Sub
+	#tag EndEvent
+
+
 #tag EndWindowCode
 
 #tag Events TA_Input

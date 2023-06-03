@@ -490,6 +490,8 @@
    <SourceLine>ta.BackgroundColor = Me.BackgroundColor</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
+   <SourceLine>ta.BackgroundColor = Color.Clear</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>ta.MultiLine = row.Multiline</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
@@ -961,7 +963,7 @@
     <SourceLine>g.ClipToRectangle(0, 0, g.Width, row.ComputedHeight)</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>Dim drawHighlight As Boolean = row &lt;&gt; editRow And row.Selected</SourceLine>
-    <SourceLine>Dim drawBackground As Boolean = row.Subclass_DrawBackground(g, i)</SourceLine>
+    <SourceLine>Dim drawBackground As Boolean = row.Subclass_DrawBackground(Self, g, g.Width, row.ComputedHeight, i)</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>If drawBackground And drawHighlight Then</SourceLine>
     <SourceLine>g.DrawingColor = Color.HighlightColor</SourceLine>
