@@ -371,7 +371,7 @@
    <SourceLine></SourceLine>
    <SourceLine>If row.Multiline Then</SourceLine>
    <SourceLine>// Might be issue with right justification?</SourceLine>
-   <SourceLine>TA_RenderSource.Text = TA_RenderSource.Text + "  " // Add two characters to workaround: https://tracker.xojo.com/xojoinc/xojo/-/issues/72962</SourceLine>
+   <SourceLine>TA_RenderSource.Text = TA_RenderSource.Text + "  " // Add two characters to workaround this bug: https://tracker.xojo.com/xojoinc/xojo/-/issues/72962</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Dim lineCount As Integer = TA_RenderSource.LineNumber(TA_RenderSource.Text.Length) + 1</SourceLine>
@@ -534,6 +534,28 @@
   <IsShared>1</IsShared>
   <ItemParams>height as Double</ItemParams>
   <ItemResult>TRCustomListBoxRow</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>TextAreaForRowDrawing</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1734148095</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function TextAreaForRowDrawing(row as TRCustomListBoxRow) As DesktopTextArea</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Me.Update_TextArea(TA_RenderSource, row)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return Me.TA_RenderSource</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>row as TRCustomListBoxRow</ItemParams>
+  <ItemResult>DesktopTextArea</ItemResult>
  </Method>
  <Hook>
   <ItemName>Resizing</ItemName>
@@ -1243,7 +1265,7 @@
   <PropertyVal Name="Underline">False</PropertyVal>
   <PropertyVal Name="UnicodeMode">1</PropertyVal>
   <PropertyVal Name="ValidationMask"></PropertyVal>
-  <PropertyVal Name="Visible">False</PropertyVal>
+  <PropertyVal Name="Visible">True</PropertyVal>
   <PropertyVal Name="Width">100</PropertyVal>
   <ControlIndex>1</ControlIndex>
   <Locked>0</Locked>
@@ -1295,7 +1317,7 @@
   <ControlClass>DesktopTextArea</ControlClass>
   <ItemName>DesktopTextArea</ItemName>
   <PropertyVal Name="AllowAutoDeactivate">True</PropertyVal>
-  <PropertyVal Name="AllowFocusRing">True</PropertyVal>
+  <PropertyVal Name="AllowFocusRing">False</PropertyVal>
   <PropertyVal Name="AllowSpellChecking">True</PropertyVal>
   <PropertyVal Name="AllowStyledText">False</PropertyVal>
   <PropertyVal Name="AllowTabs">False</PropertyVal>

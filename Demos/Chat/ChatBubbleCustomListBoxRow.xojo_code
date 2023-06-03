@@ -42,8 +42,6 @@ Inherits TRCustomListBoxRow
 		  
 		  g.FillRoundRectangle(Me.MarginLeft - kBorder, kBorder, visibleWidth - Me.MarginLeft - Me.MarginRight, visibleHeight - kBorder * 2, kRadius, kRadius)
 		  
-		  System.DebugLog(Str(rowIndex))
-		  
 		  Return True
 		  
 		End Function
