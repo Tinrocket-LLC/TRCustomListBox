@@ -446,7 +446,7 @@
    <SourceLine>Self.Update_TextArea(CellTextArea, row)</SourceLine>
    <SourceLine>Self.Update_TextArea_Location</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>RaiseEvent WillBeginEditRow(row)</SourceLine>
+   <SourceLine>RaiseEvent RowEditingWillBegin(row)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>CellTextArea.Visible = True</SourceLine>
    <SourceLine></SourceLine>
@@ -596,7 +596,7 @@
    <SourceLine>Me.EditedRowIndex = -1</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>If row &lt;&gt; Nil Then</SourceLine>
-   <SourceLine>RaiseEvent DidEndEditRow(row)</SourceLine>
+   <SourceLine>RaiseEvent RowEditingDidEnd(row)</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
@@ -641,7 +641,7 @@
   <ItemResult></ItemResult>
  </Hook>
  <Hook>
-  <ItemName>WillBeginEditRow</ItemName>
+  <ItemName>RowEditingWillBegin</ItemName>
   <TextEncoding>134217984</TextEncoding>
   <ItemFlags>33</ItemFlags>
   <SystemFlags>0</SystemFlags>
@@ -649,7 +649,7 @@
   <ItemResult></ItemResult>
  </Hook>
  <Hook>
-  <ItemName>DidEndEditRow</ItemName>
+  <ItemName>RowEditingDidEnd</ItemName>
   <TextEncoding>134217984</TextEncoding>
   <ItemFlags>33</ItemFlags>
   <SystemFlags>0</SystemFlags>

@@ -152,7 +152,7 @@ End
 
 #tag Events TRCLB_Demo
 	#tag Event
-		Sub WillBeginEditRow(row as TRCustomListBoxRow)
+		Sub RowEditingWillBegin(row as TRCustomListBoxRow)
 		  
 		  Me.DeselectAll
 		  
