@@ -168,7 +168,7 @@ End
 		End Sub
 	#tag EndEvent
 	#tag Event
-		Sub WillEditRow(row as TRCustomListBoxRow)
+		Sub WillBeginEditRow(row as TRCustomListBoxRow)
 		  
 		  Me.CellTextArea.AllowSpellChecking = False
 		  Me.CellTextArea.ReadOnly = True

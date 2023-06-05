@@ -446,7 +446,7 @@
    <SourceLine>Self.Update_TextArea(CellTextArea, row)</SourceLine>
    <SourceLine>Self.Update_TextArea_Location</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>RaiseEvent WillEditRow(row)</SourceLine>
+   <SourceLine>RaiseEvent WillBeginEditRow(row)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>CellTextArea.Visible = True</SourceLine>
    <SourceLine></SourceLine>
@@ -590,9 +590,14 @@
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
    <SourceLine>Sub EditRowEnd()</SourceLine>
+   <SourceLine>Dim row As TRCustomListBoxRow = Me.EditRow</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>CellTextArea.Visible = False</SourceLine>
    <SourceLine>Me.EditedRowIndex = -1</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If row &lt;&gt; Nil Then</SourceLine>
+   <SourceLine>RaiseEvent DidEndEditRow(row)</SourceLine>
+   <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
@@ -636,7 +641,15 @@
   <ItemResult></ItemResult>
  </Hook>
  <Hook>
-  <ItemName>WillEditRow</ItemName>
+  <ItemName>WillBeginEditRow</ItemName>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemFlags>33</ItemFlags>
+  <SystemFlags>0</SystemFlags>
+  <ItemParams>row as TRCustomListBoxRow</ItemParams>
+  <ItemResult></ItemResult>
+ </Hook>
+ <Hook>
+  <ItemName>DidEndEditRow</ItemName>
   <TextEncoding>134217984</TextEncoding>
   <ItemFlags>33</ItemFlags>
   <SystemFlags>0</SystemFlags>
