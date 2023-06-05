@@ -407,7 +407,7 @@
    <SourceLine>yOfEditedRow = yOfEditedRow + Me.Rows(i).ComputedHeight</SourceLine>
    <SourceLine>Next</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Dim row As TRCustomListBoxRow = Me.Rows(Me.EditedRowIndex)</SourceLine>
+   <SourceLine>Dim row As TRCustomListBoxRow = Me.Rows(Me.EditedRowIndex) // TODO: Replace with .EditRow()</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>CellTextArea.Top = yOfEditedRow + row.MarginTop</SourceLine>
    <SourceLine>CellTextArea.Left = row.MarginLeft - kTextAreaLeftMarginPoints</SourceLine>
@@ -438,7 +438,7 @@
    <SourceLine>Return</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Dim row As TRCustomListBoxRow = Me.Rows(rowIndex)</SourceLine>
+   <SourceLine>Dim row As TRCustomListBoxRow = Me.Rows(rowIndex) // TODO: Replace with .EditRow()</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Self.Update_TextArea(CellTextArea, row)</SourceLine>
    <SourceLine>Self.Update_TextArea_Location</SourceLine>
@@ -451,7 +451,7 @@
   </ItemSource>
   <TextEncoding>134217984</TextEncoding>
   <AliasName></AliasName>
-  <ItemFlags>0</ItemFlags>
+  <ItemFlags>33</ItemFlags>
   <IsShared>0</IsShared>
   <ItemParams>rowIndex as Integer</ItemParams>
   <ItemResult></ItemResult>
@@ -599,6 +599,30 @@
   <IsShared>0</IsShared>
   <ItemParams></ItemParams>
   <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>EditRow</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>298891263</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function EditRow() As TRCustomListBoxRow</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If Self.EditedRowIndex &lt; 0 Then </SourceLine>
+   <SourceLine>Return Nil</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return Me.Rows(Me.EditedRowIndex)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult>TRCustomListBoxRow</ItemResult>
  </Method>
  <Hook>
   <ItemName>Resizing</ItemName>
