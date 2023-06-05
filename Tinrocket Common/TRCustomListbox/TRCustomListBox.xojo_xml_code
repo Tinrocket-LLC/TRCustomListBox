@@ -396,8 +396,9 @@
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
    <SourceLine>Sub Update_TextArea_Location()</SourceLine>
+   <SourceLine>Dim row As TRCustomListBoxRow = Me.EditRow</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>If Self.EditedRowIndex &lt; 0 Then </SourceLine>
+   <SourceLine>If row = Nil Then </SourceLine>
    <SourceLine>Return</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
@@ -407,8 +408,6 @@
    <SourceLine>For i = 0 To Self.EditedRowIndex-1</SourceLine>
    <SourceLine>yOfEditedRow = yOfEditedRow + Me.Rows(i).ComputedHeight</SourceLine>
    <SourceLine>Next</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>Dim row As TRCustomListBoxRow = Me.Rows(Me.EditedRowIndex) // TODO: Replace with .EditRow()</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>CellTextArea.Top = yOfEditedRow + row.MarginTop</SourceLine>
    <SourceLine>CellTextArea.Left = row.MarginLeft - kTextAreaLeftMarginPoints</SourceLine>
@@ -434,12 +433,15 @@
    <SourceLine></SourceLine>
    <SourceLine>Self.EditedRowIndex = rowIndex</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>If Self.EditedRowIndex &lt; 0 Then</SourceLine>
+   <SourceLine>Dim row As TRCustomListBoxRow = Me.EditRow</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If row = Nil Then </SourceLine>
    <SourceLine>CellTextArea.Visible = False</SourceLine>
-   <SourceLine>Return</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Dim row As TRCustomListBoxRow = Me.Rows(rowIndex) // TODO: Replace with .EditRow()</SourceLine>
+   <SourceLine>If Self.EditedRowIndex &lt; 0 Then</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Self.Update_TextArea(CellTextArea, row)</SourceLine>
    <SourceLine>Self.Update_TextArea_Location</SourceLine>
