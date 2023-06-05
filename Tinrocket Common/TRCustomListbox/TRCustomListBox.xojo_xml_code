@@ -143,6 +143,7 @@
    <SourceLine>End</SourceLine>
    <SourceLine>Next</SourceLine>
    <SourceLine></SourceLine>
+   <SourceLine>Me.EditRowEnd</SourceLine>
    <SourceLine>Me.DeselectAll(True)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Return // Not found</SourceLine>
