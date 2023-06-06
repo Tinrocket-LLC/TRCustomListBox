@@ -583,6 +583,9 @@
    <SourceLine>Dim row As TRCustomListBoxRow = Me.EditRow</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>CellTextArea.Visible = False</SourceLine>
+   <SourceLine>CellTextArea.SelectionStart = 0</SourceLine>
+   <SourceLine>CellTextArea.SelectionLength = 0</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>Me.EditedRowIndex = -1</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>If row &lt;&gt; Nil Then</SourceLine>
@@ -662,6 +665,10 @@
    <TextEncoding>134217984</TextEncoding>
    <SourceLine>Sub ScrollToInsertionPoint()</SourceLine>
    <SourceLine></SourceLine>
+   <SourceLine>If CellTextArea.Visible = False Then</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>Dim row As TRCustomListBoxRow = Me.EditRow</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>If row &lt;&gt; Nil Then</SourceLine>
@@ -681,8 +688,7 @@
    <SourceLine>Dim yOffsetOfTargetRowTopTarget As Double = (yOfEditRow + (lineCount - 1) * lineHeight) // lineCount - 1 to go to the line BEFORE the current line</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>// Set scroll targets in content pixels</SourceLine>
-   <SourceLine>Self.ContentOffset.Y = Min(Self.ContentOffset.Y, -yOffsetOfTargetRowBottomTarget)</SourceLine>
-   <SourceLine>Self.ContentOffset.Y = Max(-yOffsetOfTargetRowTopTarget, Self.ContentOffset.Y)</SourceLine>
+   <SourceLine>Self.ContentOffset.Y = Min(-yOffsetOfTargetRowBottomTarget, Max(Self.ContentOffset.Y, -yOffsetOfTargetRowTopTarget))</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>VerticalScrollbar.ScrollTo(-Self.ContentOffset.Y, Me.Height, Me.ComputedTotalHeight)</SourceLine>
    <SourceLine>End</SourceLine>
