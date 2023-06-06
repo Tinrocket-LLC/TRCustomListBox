@@ -287,7 +287,7 @@
   <PartID>1915854847</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Function RowLineHeight(row as TRCustomListBoxRow, fontName as String, fontSize as Double) As Double</SourceLine>
+   <SourceLine>Function RowLineHeight(row as TRCustomListBoxRow, g as Graphics) As Double</SourceLine>
    <SourceLine>#Pragma BackgroundTasks False</SourceLine>
    <SourceLine>#Pragma StackOverflowChecking False</SourceLine>
    <SourceLine>#Pragma NilObjectChecking False</SourceLine>
@@ -297,11 +297,6 @@
    <SourceLine>Return row.LineHeight</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Dim g As Graphics = Me.FontCalculatorGraphics</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>g.FontName = fontName</SourceLine>
-   <SourceLine>g.FontSize = fontSize</SourceLine>
-   <SourceLine></SourceLine>
    <SourceLine>Return g.TextHeight * row.LineSpacing</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Function</SourceLine>
@@ -310,7 +305,7 @@
   <AliasName></AliasName>
   <ItemFlags>33</ItemFlags>
   <IsShared>0</IsShared>
-  <ItemParams>row as TRCustomListBoxRow, fontName as String, fontSize as Double</ItemParams>
+  <ItemParams>row as TRCustomListBoxRow, g as Graphics</ItemParams>
   <ItemResult>Double</ItemResult>
  </Method>
  <Method>
@@ -363,15 +358,9 @@
    <SourceLine>Else</SourceLine>
    <SourceLine>g.FontName = Self.RowFontName(row)</SourceLine>
    <SourceLine>g.FontSize = Self.RowFontSize(row)</SourceLine>
-   <SourceLine>lineHeight = Self.RowLineHeight(row, g.FontName, g.FontSize)</SourceLine>
+   <SourceLine>lineHeight = Self.RowLineHeight(row, g)</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Self.Update_TextArea(TA_RenderSource, row)</SourceLine>
-   <SourceLine>TA_RenderSource.Width = Self.RowTextAreaWidth(row)</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>If row.Multiline Then</SourceLine>
-   <SourceLine>// Might be issue with right justification?</SourceLine>
-   <SourceLine>TA_RenderSource.Text = TA_RenderSource.Text + "  " // Add two characters to workaround this bug: https://tracker.xojo.com/xojoinc/xojo/-/issues/72962</SourceLine>
-   <SourceLine>End</SourceLine>
+   <SourceLine>Self.Update_TextArea_ForRendering(row)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Dim lineCount As Integer = TA_RenderSource.LineNumber(TA_RenderSource.Text.Length) + 1</SourceLine>
    <SourceLine></SourceLine>
@@ -546,7 +535,7 @@
    <TextEncoding>134217984</TextEncoding>
    <SourceLine>Function InternalRenderControl(row as TRCustomListBoxRow) As DesktopTextArea</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Me.Update_TextArea(TA_RenderSource, row)</SourceLine>
+   <SourceLine>Me.Update_TextArea_ForRendering(row)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Return Me.TA_RenderSource</SourceLine>
    <SourceLine></SourceLine>
@@ -675,15 +664,23 @@
    <SourceLine>Sub Update_ScrollToInsertionPoint()</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Dim row As TRCustomListBoxRow = Me.EditRow</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>If row &lt;&gt; Nil Then</SourceLine>
    <SourceLine>Dim yOfEditRow As Double = Self.RowPositionY(row)</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>'Me.ContentOffset.Y = -yOfEditRow</SourceLine>
+   <SourceLine>// We can't use CellTextArea to compute the insertion point of the current row because of the .lineNumber() bug</SourceLine>
+   <SourceLine>Self.Update_TextArea_ForRendering(row)</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Dim lineIndex As Integer = CellTextArea.LineNumber(CellTextArea.SelectionStart + CellTextArea.SelectionLength + 1)</SourceLine>
-   <SourceLine>Dim lineHeight As Double = Self.row</SourceLine>
+   <SourceLine>Dim lineCount As Integer = TA_RenderSource.LineNumber(CellTextArea.SelectionStart + CellTextArea.SelectionLength + 1) + 1</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>System.DebugLog("inseration line: " )</SourceLine>
+   <SourceLine>Dim g As Graphics = Self.FontCalculatorGraphics</SourceLine>
+   <SourceLine>g.FontName = Self.RowFontName(row)</SourceLine>
+   <SourceLine>g.FontSize = Self.RowFontSize(row)</SourceLine>
+   <SourceLine>Dim lineHeight As Double = Self.RowLineHeight(row, g)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>'Self.ContentOffset.Y = -(yOfEditRow + lineCount * lineHeight)</SourceLine>
+   <SourceLine>System.DebugLog("insertion line: " + Str(lineCount))</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
@@ -693,6 +690,41 @@
   <ItemFlags>33</ItemFlags>
   <IsShared>0</IsShared>
   <ItemParams></ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>Update_TextArea_ForRendering</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>2124556287</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub Update_TextArea_ForRendering(row as TRCustomListBoxRow)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>TA_RenderSource.Text = row.Text</SourceLine>
+   <SourceLine>If row.Multiline Then</SourceLine>
+   <SourceLine>// Might be issue with right justification?</SourceLine>
+   <SourceLine>TA_RenderSource.Text = TA_RenderSource.Text + "  " // Add two characters to workaround this bug: https://tracker.xojo.com/xojoinc/xojo/-/issues/72962</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>TA_RenderSource.FontName = Me.RowFontName(row)</SourceLine>
+   <SourceLine>TA_RenderSource.FontSize = Me.RowFontSize(row)</SourceLine>
+   <SourceLine>TA_RenderSource.LineHeight = row.LineHeight</SourceLine>
+   <SourceLine>TA_RenderSource.LineSpacing = row.LineSpacing</SourceLine>
+   <SourceLine>TA_RenderSource.TextColor = Me.RowFontColor(row)</SourceLine>
+   <SourceLine>TA_RenderSource.TextAlignment = row.TextAlignment</SourceLine>
+   <SourceLine>TA_RenderSource.MultiLine = row.Multiline</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>TA_RenderSource.Width = Self.RowTextAreaWidth(row)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>row as TRCustomListBoxRow</ItemParams>
   <ItemResult></ItemResult>
  </Method>
  <Hook>
@@ -1192,10 +1224,8 @@
     <SourceLine>End</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>If i &lt;&gt; Self.EditedRowIndex Then // Don't draw edited row; there's a text area covering it</SourceLine>
-    <SourceLine>Self.Update_TextArea(TA_RenderSource, row)</SourceLine>
-    <SourceLine></SourceLine>
+    <SourceLine>Self.Update_TextArea_ForRendering(row)</SourceLine>
     <SourceLine>TA_RenderSource.Height = row.ComputedHeight</SourceLine>
-    <SourceLine>TA_RenderSource.Width = Self.RowTextAreaWidth(row)</SourceLine>
     <SourceLine>TA_RenderSource.MultiLine = row.WordWrap</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>TA_RenderSource.DrawInto(g, row.MarginLeft, row.MarginTop)</SourceLine>
