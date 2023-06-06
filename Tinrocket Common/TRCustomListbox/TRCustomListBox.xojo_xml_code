@@ -75,6 +75,8 @@
    <SourceLine>Me.ContentOffset.Y = offsetY</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
+   <SourceLine>Self.Update_ScrollToInsertionPoint</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>Me.Update_TextArea_Location</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
@@ -631,6 +633,67 @@
   <IsShared>0</IsShared>
   <ItemParams></ItemParams>
   <ItemResult>TRCustomListBoxRow</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>RowPositionY</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>160923647</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function RowPositionY(row as TRCustomListBoxRow) As Double</SourceLine>
+   <SourceLine>Dim runningY As Double</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>For Each r As TRCustomListBoxRow In Self.Rows</SourceLine>
+   <SourceLine>If r = row Then</SourceLine>
+   <SourceLine>Return runningY</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>runningY = runningY + r.ComputedHeight</SourceLine>
+   <SourceLine>Next</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return -1</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>row as TRCustomListBoxRow</ItemParams>
+  <ItemResult>Double</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>Update_ScrollToInsertionPoint</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>525971455</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub Update_ScrollToInsertionPoint()</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Dim row As TRCustomListBoxRow = Me.EditRow</SourceLine>
+   <SourceLine>If row &lt;&gt; Nil Then</SourceLine>
+   <SourceLine>Dim yOfEditRow As Double = Self.RowPositionY(row)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>'Me.ContentOffset.Y = -yOfEditRow</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Dim lineIndex As Integer = CellTextArea.LineNumber(CellTextArea.SelectionStart + CellTextArea.SelectionLength + 1)</SourceLine>
+   <SourceLine>Dim lineHeight As Double = Self.row</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>System.DebugLog("inseration line: " )</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult></ItemResult>
  </Method>
  <Hook>
   <ItemName>Resizing</ItemName>
