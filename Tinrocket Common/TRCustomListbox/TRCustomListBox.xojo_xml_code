@@ -680,13 +680,15 @@
    <SourceLine>Dim lineHeight As Double = Self.RowLineHeight(row, g)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Self.ContentOffset.Y = Max(-yOfEditRow, Min(Self.ContentOffset.Y, -((yOfEditRow - Self.Height) + lineCount * lineHeight)))</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>VerticalScrollbar.ScrollTo(-Self.ContentOffset.Y, Me.Height, Me.ComputedTotalHeight)</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
   <TextEncoding>134217984</TextEncoding>
   <AliasName></AliasName>
-  <ItemFlags>33</ItemFlags>
+  <ItemFlags>0</ItemFlags>
   <IsShared>0</IsShared>
   <ItemParams></ItemParams>
   <ItemResult></ItemResult>
