@@ -75,7 +75,7 @@
    <SourceLine>Me.ContentOffset.Y = offsetY</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Self.Update_ScrollToInsertionPoint</SourceLine>
+   <SourceLine>Self.Update_ScrollToInsertionPoint // Primary handled by SelectionChanged in CellTextArea, but this will keep the insertion point visible as the control changes size, rows are inserted or deleted, etc.</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Me.Update_TextArea_ForEditing_Location</SourceLine>
    <SourceLine></SourceLine>
@@ -673,13 +673,15 @@
    <SourceLine>Self.Update_TextArea_ForRendering(row, row.ComputedTextHeight)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Dim lineCount As Integer = TA_RenderSource.LineNumber(CellTextArea.SelectionStart + CellTextArea.SelectionLength + 1) + 1</SourceLine>
+   <SourceLine>lineCount = lineCount + 1 // Add extra line for new returns and a little extra space at bottom</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Dim g As Graphics = Self.FontCalculatorGraphics</SourceLine>
    <SourceLine>g.FontName = Self.RowFontName(row)</SourceLine>
    <SourceLine>g.FontSize = Self.RowFontSize(row)</SourceLine>
    <SourceLine>Dim lineHeight As Double = Self.RowLineHeight(row, g)</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>'Self.ContentOffset.Y = -(yOfEditRow + lineCount * lineHeight)</SourceLine>
+   <SourceLine>Self.ContentOffset.Y = Min(Self.ContentOffset.Y, -((yOfEditRow - Self.Height) + lineCount * lineHeight))</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>System.DebugLog("insertion line: " + Str(lineCount))</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
@@ -1340,6 +1342,20 @@
     <SourceLine>VerticalScrollbar.Value = VerticalScrollbar.Value + VerticalScrollbar.LineStep * Sign(deltaY)</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>End Function</SourceLine>
+   </ItemSource>
+  </HookInstance>
+  <HookInstance>
+   <ItemName>SelectionChanged</ItemName>
+   <Compatibility></Compatibility>
+   <Visible>1</Visible>
+   <PartID>99256319</PartID>
+   <ItemSource>
+    <TextEncoding>134217984</TextEncoding>
+    <SourceLine>Sub SelectionChanged()</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>Self.Update_ScrollToInsertionPoint</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>End Sub</SourceLine>
    </ItemSource>
   </HookInstance>
  </ControlBehavior>
