@@ -667,29 +667,22 @@
    <SourceLine>If row &lt;&gt; Nil Then</SourceLine>
    <SourceLine>Dim yOfEditRow As Double = Self.RowPositionY(row)</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>// We can't use CellTextArea to compute the insertion point of the current row because of the .lineNumber() bug</SourceLine>
-   <SourceLine>Self.Update_TextArea_ForRendering(row, row.ComputedTextHeight)</SourceLine>
+   <SourceLine>// Compute line metrics</SourceLine>
+   <SourceLine>Self.Update_TextArea_ForRendering(row, row.ComputedTextHeight) // We can't use CellTextArea to compute the insertion point of the current row because of the .lineNumber() bug</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Dim lineCount As Integer = TA_RenderSource.LineNumber(CellTextArea.SelectionStart + CellTextArea.SelectionLength + 1) + 1</SourceLine>
-   <SourceLine>' System.DebugLog("insertion line: " + Str(lineCount))</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>'lineCount = lineCount + 1 // Add extra line for new returns and a little extra space at bottom</SourceLine>
-   <SourceLine></SourceLine>
    <SourceLine>Dim g As Graphics = Self.FontCalculatorGraphics</SourceLine>
    <SourceLine>g.FontName = Self.RowFontName(row)</SourceLine>
    <SourceLine>g.FontSize = Self.RowFontSize(row)</SourceLine>
    <SourceLine>Dim lineHeight As Double = Self.RowLineHeight(row, g)</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Dim yOffsetOfTargetRowMin As Double = (yOfEditRow - Self.Height + (lineCount + 1) * lineHeight)</SourceLine>
-   <SourceLine>Dim yOffsetOfTargetRowMax As Double = (yOfEditRow + (lineCount - 1) * lineHeight)</SourceLine>
+   <SourceLine>// Compute scroll targets</SourceLine>
+   <SourceLine>Dim yOffsetOfTargetRowBottomTarget As Double = (yOfEditRow - Self.Height + (lineCount + 1) * lineHeight) // lineCount + 1 to go to the line AFTER the current line (for new returns and a little extra space at the bottom)</SourceLine>
+   <SourceLine>Dim yOffsetOfTargetRowTopTarget As Double = (yOfEditRow + (lineCount - 1) * lineHeight) // lineCount - 1 to go to the line BEFORE the current line</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Self.ContentOffset.Y = Min(Self.ContentOffset.Y, -yOffsetOfTargetRowMin)</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>'System.DebugLog(Str(yOffsetOfTargetRowMin))</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>Self.ContentOffset.Y = Max(-yOffsetOfTargetRowMax, Self.ContentOffset.Y)</SourceLine>
-   <SourceLine>'Self.ContentOffset.Y = Max(-yOffsetOfTargetRow, Min(Self.ContentOffset.Y, -yOffsetOfTargetRow))</SourceLine>
+   <SourceLine>// Set scroll targets in content pixels</SourceLine>
+   <SourceLine>Self.ContentOffset.Y = Min(Self.ContentOffset.Y, -yOffsetOfTargetRowBottomTarget)</SourceLine>
+   <SourceLine>Self.ContentOffset.Y = Max(-yOffsetOfTargetRowTopTarget, Self.ContentOffset.Y)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>VerticalScrollbar.ScrollTo(-Self.ContentOffset.Y, Me.Height, Me.ComputedTotalHeight)</SourceLine>
    <SourceLine>End</SourceLine>
