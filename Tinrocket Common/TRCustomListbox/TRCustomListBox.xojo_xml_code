@@ -2,7 +2,7 @@
 <RBProject version="2023r1.1" FormatVersion="2" MinIDEVersion="20210300">
 <block type="DesktopWindow" ID="1261617151">
  <ObjName>TRCustomListBox</ObjName>
- <ObjContainerID>1534973951</ObjContainerID>
+ <ObjContainerID>91383807</ObjContainerID>
  <IsClass>1</IsClass>
  <Superclass>DesktopContainer</Superclass>
  <ItemFlags>1</ItemFlags>
@@ -657,13 +657,13 @@
   <ItemResult>Double</ItemResult>
  </Method>
  <Method>
-  <ItemName>ScrollToInsertionPoint</ItemName>
+  <ItemName>ScrollToEditRowInsertionPoint</ItemName>
   <Compatibility></Compatibility>
   <Visible>1</Visible>
   <PartID>525971455</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Sub ScrollToInsertionPoint()</SourceLine>
+   <SourceLine>Sub ScrollToEditRowInsertionPoint()</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>If CellTextArea.Visible = False Then</SourceLine>
    <SourceLine>Return</SourceLine>
@@ -1361,7 +1361,7 @@
     <TextEncoding>134217984</TextEncoding>
     <SourceLine>Sub SelectionChanged()</SourceLine>
     <SourceLine></SourceLine>
-    <SourceLine>Self.ScrollToInsertionPoint</SourceLine>
+    <SourceLine>Self.ScrollToEditRowInsertionPoint</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>End Sub</SourceLine>
    </ItemSource>
