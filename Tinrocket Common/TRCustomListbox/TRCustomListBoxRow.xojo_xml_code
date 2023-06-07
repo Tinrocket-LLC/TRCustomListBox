@@ -2,7 +2,7 @@
 <RBProject version="2023r1.1" FormatVersion="2" MinIDEVersion="20210300">
 <block type="Module" ID="1260929023">
  <ObjName>TRCustomListBoxRow</ObjName>
- <ObjContainerID>0</ObjContainerID>
+ <ObjContainerID>91383807</ObjContainerID>
  <IsClass>1</IsClass>
  <ItemFlags>1</ItemFlags>
  <IsInterface>0</IsInterface>
@@ -14,7 +14,7 @@
   <PartID>1422530559</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Sub Constructor(s as String)</SourceLine>
+   <SourceLine>Sub Constructor(s as String = "")</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Me.Text = s</SourceLine>
    <SourceLine></SourceLine>
@@ -24,8 +24,26 @@
   <AliasName></AliasName>
   <ItemFlags>0</ItemFlags>
   <IsShared>0</IsShared>
-  <ItemParams>s as String</ItemParams>
+  <ItemParams>s as String = ""</ItemParams>
   <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>Subclass_DrawBackground</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1984763903</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function Subclass_DrawBackground(listBox as TRCustomListBox, g as Graphics, visibleWidth as Double, visibleHeight as Double, rowIndex as Integer, editing as Boolean) As Boolean</SourceLine>
+   <SourceLine>// Abstract</SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>listBox as TRCustomListBox, g as Graphics, visibleWidth as Double, visibleHeight as Double, rowIndex as Integer, editing as Boolean</ItemParams>
+  <ItemResult>Boolean</ItemResult>
  </Method>
  <Property>
   <ItemName>Text</ItemName>
@@ -354,6 +372,21 @@
   </ItemSource>
   <TextEncoding>134217984</TextEncoding>
   <ItemDeclaration>ComputedTextHeight As Double</ItemDeclaration>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>ComputedLineCount</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1111912447</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>ComputedLineCount As Integer</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>ComputedLineCount As Integer</ItemDeclaration>
   <ItemFlags>0</ItemFlags>
   <IsShared>0</IsShared>
  </Property>

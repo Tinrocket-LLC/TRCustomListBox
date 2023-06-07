@@ -7,8 +7,6 @@
 - New public method to intuitively scroll to a content offset: TRProportionalDesktopScrollbar(instance)ScrollTo(value as Double, contentHeight as Double, visibleHeight as Double)
 - Bug fixes
 
-![Auto-scroll](assets/ezgif-1-c42b249f5c.gif)
-
 
 2023-06-03
 

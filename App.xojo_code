@@ -1,6 +1,20 @@
 #tag Class
 Protected Class App
 Inherits DesktopApplication
+	#tag Event
+		Sub Opening()
+		  
+		  // Pre-seed the coordinates or else Stagger placement will put the window under the menu bar
+		  W_DemoWonderland.Left = 100
+		  W_DemoWonderland.Top = 75
+		  W_DemoWonderland.Show
+		  
+		  W_DemoChatBubbles.Show
+		  
+		End Sub
+	#tag EndEvent
+
+
 	#tag Constant, Name = kEditClear, Type = String, Dynamic = False, Default = \"&Delete", Scope = Public
 		#Tag Instance, Platform = Windows, Language = Default, Definition  = \"&Delete"
 		#Tag Instance, Platform = Linux, Language = Default, Definition  = \"&Delete"
