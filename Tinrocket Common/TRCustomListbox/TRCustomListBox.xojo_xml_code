@@ -663,7 +663,7 @@
   <PartID>525971455</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Sub ScrollToEditRowInsertionPoint()</SourceLine>
+   <SourceLine>Sub ScrollToEditRowInsertionPoint(allowSpaceForTyping as Boolean = True)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>If CellTextArea.Visible = False Then</SourceLine>
    <SourceLine>Return</SourceLine>
@@ -677,14 +677,22 @@
    <SourceLine>// Compute line metrics</SourceLine>
    <SourceLine>Self.Update_TextArea_ForRendering(row, row.ComputedTextHeight) // We can't use CellTextArea to compute the insertion point of the current row because of the .lineNumber() bug</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Dim lineCount As Integer = TA_RenderSource.LineNumber(CellTextArea.SelectionStart + CellTextArea.SelectionLength + 1) + 1</SourceLine>
+   <SourceLine>Dim lineCount As Integer = TA_RenderSource.LineNumber(CellTextArea.SelectionStart + CellTextArea.SelectionLength + 2) + 1 // + 2 because .LineNumber() will be glitchy when adding returns to the end of a text field; and since TA_RenderSource contains extra characters to work around this bug, we should use them to get the most accurate line count</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>System.DebugLog(Str(lineCount))</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>Dim g As Graphics = Self.FontCalculatorGraphics</SourceLine>
    <SourceLine>g.FontName = Self.RowFontName(row)</SourceLine>
    <SourceLine>g.FontSize = Self.RowFontSize(row)</SourceLine>
    <SourceLine>Dim lineHeight As Double = Self.RowLineHeight(row, g)</SourceLine>
    <SourceLine></SourceLine>
+   <SourceLine>Dim extraLine As Integer = 0</SourceLine>
+   <SourceLine>If allowSpaceForTyping Then </SourceLine>
+   <SourceLine>extraLine = 1</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>// Compute scroll targets</SourceLine>
-   <SourceLine>Dim yOffsetOfTargetRowBottomTarget As Double = (yOfEditRow - Self.Height + (lineCount + 1) * lineHeight) // lineCount + 1 to go to the line AFTER the current line (for new returns and a little extra space at the bottom)</SourceLine>
+   <SourceLine>Dim yOffsetOfTargetRowBottomTarget As Double = (yOfEditRow - Self.Height + (lineCount + extraLine) * lineHeight) // lineCount + 1 to go to the line AFTER the current line (for new returns and a little extra space at the bottom)</SourceLine>
    <SourceLine>Dim yOffsetOfTargetRowTopTarget As Double = (yOfEditRow + (lineCount - 1) * lineHeight) // lineCount - 1 to go to the line BEFORE the current line</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>// Set scroll targets in content pixels</SourceLine>
@@ -699,7 +707,7 @@
   <AliasName></AliasName>
   <ItemFlags>0</ItemFlags>
   <IsShared>0</IsShared>
-  <ItemParams></ItemParams>
+  <ItemParams>allowSpaceForTyping as Boolean = True</ItemParams>
   <ItemResult></ItemResult>
  </Method>
  <Method>
@@ -1332,6 +1340,8 @@
     <SourceLine>Self.Update_ComputeHeight_Row(row, Self.FontCalculatorGraphics)</SourceLine>
     <SourceLine>Self.ComputedTotalHeight = Self.ComputedTotalHeight - beforeHeight + row.ComputedHeight</SourceLine>
     <SourceLine></SourceLine>
+    <SourceLine>Self.ScrollToEditRowInsertionPoint(True)</SourceLine>
+    <SourceLine></SourceLine>
     <SourceLine>Self.Update(True)</SourceLine>
     <SourceLine>Self.Refresh(True)</SourceLine>
     <SourceLine></SourceLine>
@@ -1361,7 +1371,7 @@
     <TextEncoding>134217984</TextEncoding>
     <SourceLine>Sub SelectionChanged()</SourceLine>
     <SourceLine></SourceLine>
-    <SourceLine>Self.ScrollToEditRowInsertionPoint</SourceLine>
+    <SourceLine>Self.ScrollToEditRowInsertionPoint(False)</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>End Sub</SourceLine>
    </ItemSource>
