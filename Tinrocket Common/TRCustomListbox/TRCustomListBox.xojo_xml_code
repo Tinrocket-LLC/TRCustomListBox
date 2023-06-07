@@ -692,14 +692,16 @@
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>// Compute scroll targets</SourceLine>
-   <SourceLine>Dim yOffsetOfTargetRowBottomTarget As Double = (yOfEditRow - Self.Height + (lineCount + extraLine) * lineHeight) // lineCount + 1 to go to the line AFTER the current line (for new returns and a little extra space at the bottom)</SourceLine>
    <SourceLine>Dim yOffsetOfTargetRowTopTarget As Double = (yOfEditRow + (lineCount - 1) * lineHeight) // lineCount - 1 to go to the line BEFORE the current line</SourceLine>
+   <SourceLine>Dim yOffsetOfTargetRowBottomTarget As Double = (yOfEditRow + (lineCount + extraLine) * lineHeight) // lineCount + 1 to go to the line AFTER the current line (for new returns and a little extra space at the bottom)</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>If Self.ContentOffset.Y &lt; yOffsetOfTargetRowTopTarget Or yOffsetOfTargetRowBottomTarget &gt; Self.ContentOffset.Y + Height Then</SourceLine>
-   <SourceLine>// Scroll target is off screen; Set scroll targets in content pixels</SourceLine>
-   <SourceLine>Self.ContentOffset.Y = Min(-yOffsetOfTargetRowBottomTarget, Max(Self.ContentOffset.Y, -yOffsetOfTargetRowTopTarget))</SourceLine>
+   <SourceLine>If yOffsetOfTargetRowTopTarget + Self.ContentOffset.Y &lt; 0 Or yOffsetOfTargetRowBottomTarget &gt; Self.ContentOffset.Y + Me.Height Then</SourceLine>
+   <SourceLine>// Scroll target is off screen; set scroll targets in content pixels</SourceLine>
+   <SourceLine>Self.ContentOffset.Y = Min(-yOffsetOfTargetRowBottomTarget + Me.Height, Max(Self.ContentOffset.Y, -yOffsetOfTargetRowTopTarget))</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>VerticalScrollbar.ScrollTo(-Self.ContentOffset.Y, Me.Height, Me.ComputedTotalHeight)</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>// Don't scroll</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
