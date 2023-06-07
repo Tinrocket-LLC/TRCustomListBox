@@ -11,7 +11,6 @@ Inherits DesktopApplication
 		  
 		  W_DemoChatBubbles.Show
 		  
-		  
 		End Sub
 	#tag EndEvent
 

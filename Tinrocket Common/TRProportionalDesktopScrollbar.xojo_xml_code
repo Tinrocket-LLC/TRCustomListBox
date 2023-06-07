@@ -40,6 +40,27 @@
   <ItemParams>contentSize as Double, visibleSize as Double</ItemParams>
   <ItemResult>Double</ItemResult>
  </Method>
+ <Method>
+  <ItemName>ScrollTo</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>217796607</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub ScrollTo(value as Double, contentHeight as Double, visibleHeight as Double)</SourceLine>
+   <SourceLine>Dim scrollFraction As Double = value / (visibleHeight - contentHeight)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Me.Value = scrollFraction * Me.MaximumValue</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>value as Double, contentHeight as Double, visibleHeight as Double</ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
  <Property>
   <ItemName>AutoHide</ItemName>
   <Compatibility></Compatibility>

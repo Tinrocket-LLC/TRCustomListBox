@@ -75,7 +75,7 @@
    <SourceLine>Me.ContentOffset.Y = offsetY</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Me.Update_TextArea_Location</SourceLine>
+   <SourceLine>Me.Update_TextArea_ForEditing_Location</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
@@ -143,6 +143,7 @@
    <SourceLine>End</SourceLine>
    <SourceLine>Next</SourceLine>
    <SourceLine></SourceLine>
+   <SourceLine>Me.EditRowEnd</SourceLine>
    <SourceLine>Me.DeselectAll(True)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Return // Not found</SourceLine>
@@ -207,10 +208,6 @@
    <SourceLine>For i = 0 To Me.Rows.LastIndex</SourceLine>
    <SourceLine>Me.Rows(i).Selected = False</SourceLine>
    <SourceLine>Next</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>// TODO: Validate? Maybe send an event</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>CellTextArea.Visible = False</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>If doRefresh Then</SourceLine>
    <SourceLine>C_Content.Refresh</SourceLine>
@@ -288,7 +285,7 @@
   <PartID>1915854847</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Function RowLineHeight(row as TRCustomListBoxRow, fontName as String, fontSize as Double) As Double</SourceLine>
+   <SourceLine>Function RowLineHeight(row as TRCustomListBoxRow, g as Graphics) As Double</SourceLine>
    <SourceLine>#Pragma BackgroundTasks False</SourceLine>
    <SourceLine>#Pragma StackOverflowChecking False</SourceLine>
    <SourceLine>#Pragma NilObjectChecking False</SourceLine>
@@ -298,11 +295,6 @@
    <SourceLine>Return row.LineHeight</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Dim g As Graphics = Me.FontCalculatorGraphics</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>g.FontName = fontName</SourceLine>
-   <SourceLine>g.FontSize = fontSize</SourceLine>
-   <SourceLine></SourceLine>
    <SourceLine>Return g.TextHeight * row.LineSpacing</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Function</SourceLine>
@@ -311,7 +303,7 @@
   <AliasName></AliasName>
   <ItemFlags>33</ItemFlags>
   <IsShared>0</IsShared>
-  <ItemParams>row as TRCustomListBoxRow, fontName as String, fontSize as Double</ItemParams>
+  <ItemParams>row as TRCustomListBoxRow, g as Graphics</ItemParams>
   <ItemResult>Double</ItemResult>
  </Method>
  <Method>
@@ -364,15 +356,9 @@
    <SourceLine>Else</SourceLine>
    <SourceLine>g.FontName = Self.RowFontName(row)</SourceLine>
    <SourceLine>g.FontSize = Self.RowFontSize(row)</SourceLine>
-   <SourceLine>lineHeight = Self.RowLineHeight(row, g.FontName, g.FontSize)</SourceLine>
+   <SourceLine>lineHeight = Self.RowLineHeight(row, g)</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Self.Update_TextArea(TA_RenderSource, row)</SourceLine>
-   <SourceLine>TA_RenderSource.Width = Self.RowTextAreaWidth(row)</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>If row.Multiline Then</SourceLine>
-   <SourceLine>// Might be issue with right justification?</SourceLine>
-   <SourceLine>TA_RenderSource.Text = TA_RenderSource.Text + "  " // Add two characters to workaround this bug: https://tracker.xojo.com/xojoinc/xojo/-/issues/72962</SourceLine>
-   <SourceLine>End</SourceLine>
+   <SourceLine>Self.Update_TextArea_ForRendering(row)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Dim lineCount As Integer = TA_RenderSource.LineNumber(TA_RenderSource.Text.Length) + 1</SourceLine>
    <SourceLine></SourceLine>
@@ -392,15 +378,16 @@
   <ItemResult></ItemResult>
  </Method>
  <Method>
-  <ItemName>Update_TextArea_Location</ItemName>
+  <ItemName>Update_TextArea_ForEditing_Location</ItemName>
   <Compatibility></Compatibility>
   <Visible>1</Visible>
   <PartID>1710737407</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Sub Update_TextArea_Location()</SourceLine>
+   <SourceLine>Sub Update_TextArea_ForEditing_Location()</SourceLine>
+   <SourceLine>Dim row As TRCustomListBoxRow = Me.EditRow</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>If Self.EditedRowIndex &lt; 0 Then </SourceLine>
+   <SourceLine>If row = Nil Then </SourceLine>
    <SourceLine>Return</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
@@ -410,8 +397,6 @@
    <SourceLine>For i = 0 To Self.EditedRowIndex-1</SourceLine>
    <SourceLine>yOfEditedRow = yOfEditedRow + Me.Rows(i).ComputedHeight</SourceLine>
    <SourceLine>Next</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>Dim row As TRCustomListBoxRow = Me.Rows(Me.EditedRowIndex)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>CellTextArea.Top = yOfEditedRow + row.MarginTop</SourceLine>
    <SourceLine>CellTextArea.Left = row.MarginLeft - kTextAreaLeftMarginPoints</SourceLine>
@@ -437,17 +422,20 @@
    <SourceLine></SourceLine>
    <SourceLine>Self.EditedRowIndex = rowIndex</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>If Self.EditedRowIndex &lt; 0 Then</SourceLine>
+   <SourceLine>Dim row As TRCustomListBoxRow = Me.EditRow</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If row = Nil Then </SourceLine>
    <SourceLine>CellTextArea.Visible = False</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If Self.EditedRowIndex &lt; 0 Then</SourceLine>
    <SourceLine>Return</SourceLine>
    <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Dim row As TRCustomListBoxRow = Me.Rows(rowIndex)</SourceLine>
+   <SourceLine>Self.Update_TextArea_ForEditing(row)</SourceLine>
+   <SourceLine>Self.Update_TextArea_ForEditing_Location</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Self.Update_TextArea(CellTextArea, row)</SourceLine>
-   <SourceLine>Self.Update_TextArea_Location</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>RaiseEvent WillEditRow(row)</SourceLine>
+   <SourceLine>RaiseEvent RowEditingWillBegin(row)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>CellTextArea.Visible = True</SourceLine>
    <SourceLine></SourceLine>
@@ -455,7 +443,7 @@
   </ItemSource>
   <TextEncoding>134217984</TextEncoding>
   <AliasName></AliasName>
-  <ItemFlags>0</ItemFlags>
+  <ItemFlags>33</ItemFlags>
   <IsShared>0</IsShared>
   <ItemParams>rowIndex as Integer</ItemParams>
   <ItemResult></ItemResult>
@@ -487,13 +475,14 @@
   <ItemResult>Double</ItemResult>
  </Method>
  <Method>
-  <ItemName>Update_TextArea</ItemName>
+  <ItemName>Update_TextArea_ForEditing</ItemName>
   <Compatibility></Compatibility>
   <Visible>1</Visible>
   <PartID>1709473791</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Sub Update_TextArea(ta as DesktopTextArea, row as TRCustomListBoxRow)</SourceLine>
+   <SourceLine>Sub Update_TextArea_ForEditing(row as TRCustomListBoxRow)</SourceLine>
+   <SourceLine>Dim ta As DesktopTextArea = CellTextArea</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>ta.Text = row.Text</SourceLine>
    <SourceLine>ta.FontName = Me.RowFontName(row)</SourceLine>
@@ -502,7 +491,7 @@
    <SourceLine>ta.LineSpacing = row.LineSpacing</SourceLine>
    <SourceLine>ta.TextColor = Me.RowFontColor(row)</SourceLine>
    <SourceLine>ta.TextAlignment = row.TextAlignment</SourceLine>
-   <SourceLine>ta.MultiLine = row.Multiline</SourceLine>
+   <SourceLine>ta.MultiLine = row.Multiline Or row.WordWrap</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
@@ -510,7 +499,7 @@
   <AliasName></AliasName>
   <ItemFlags>33</ItemFlags>
   <IsShared>0</IsShared>
-  <ItemParams>ta as DesktopTextArea, row as TRCustomListBoxRow</ItemParams>
+  <ItemParams>row as TRCustomListBoxRow</ItemParams>
   <ItemResult></ItemResult>
  </Method>
  <Method>
@@ -545,7 +534,7 @@
    <TextEncoding>134217984</TextEncoding>
    <SourceLine>Function InternalRenderControl(row as TRCustomListBoxRow) As DesktopTextArea</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Me.Update_TextArea(TA_RenderSource, row)</SourceLine>
+   <SourceLine>Me.Update_TextArea_ForRendering(row, row.ComputedTextHeight)</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Return Me.TA_RenderSource</SourceLine>
    <SourceLine></SourceLine>
@@ -591,9 +580,17 @@
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
    <SourceLine>Sub EditRowEnd()</SourceLine>
+   <SourceLine>Dim row As TRCustomListBoxRow = Me.EditRow</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>CellTextArea.Visible = False</SourceLine>
+   <SourceLine>CellTextArea.SelectionStart = 0</SourceLine>
+   <SourceLine>CellTextArea.SelectionLength = 0</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>Me.EditedRowIndex = -1</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If row &lt;&gt; Nil Then</SourceLine>
+   <SourceLine>RaiseEvent RowEditingDidEnd(row)</SourceLine>
+   <SourceLine>End</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
@@ -602,6 +599,154 @@
   <ItemFlags>33</ItemFlags>
   <IsShared>0</IsShared>
   <ItemParams></ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>EditRow</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>298891263</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function EditRow() As TRCustomListBoxRow</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If Self.EditedRowIndex &lt; 0 Then </SourceLine>
+   <SourceLine>Return Nil</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return Me.Rows(Me.EditedRowIndex)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult>TRCustomListBoxRow</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>RowPositionY</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>160923647</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function RowPositionY(row as TRCustomListBoxRow) As Double</SourceLine>
+   <SourceLine>Dim runningY As Double</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>For Each r As TRCustomListBoxRow In Self.Rows</SourceLine>
+   <SourceLine>If r = row Then</SourceLine>
+   <SourceLine>Return runningY</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>runningY = runningY + r.ComputedHeight</SourceLine>
+   <SourceLine>Next</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return -1</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>row as TRCustomListBoxRow</ItemParams>
+  <ItemResult>Double</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>ScrollToEditRowInsertionPoint</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>525971455</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub ScrollToEditRowInsertionPoint(allowSpaceForTyping as Boolean = True)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If CellTextArea.Visible = False Then</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Dim row As TRCustomListBoxRow = Me.EditRow</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If row &lt;&gt; Nil Then</SourceLine>
+   <SourceLine>Dim yOfEditRow As Double = Self.RowPositionY(row)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Compute line metrics</SourceLine>
+   <SourceLine>Self.Update_TextArea_ForRendering(row, row.ComputedTextHeight) // We can't use CellTextArea to compute the insertion point of the current row because of the .lineNumber() bug</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Dim lineCount As Integer = TA_RenderSource.LineNumber(CellTextArea.SelectionStart + CellTextArea.SelectionLength + 2) + 1 // + 2 because .LineNumber() will be glitchy when adding returns to the end of a text field; and since TA_RenderSource contains extra characters to work around this bug, we should use them to get the most accurate line count</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>System.DebugLog(Str(lineCount))</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Dim g As Graphics = Self.FontCalculatorGraphics</SourceLine>
+   <SourceLine>g.FontName = Self.RowFontName(row)</SourceLine>
+   <SourceLine>g.FontSize = Self.RowFontSize(row)</SourceLine>
+   <SourceLine>Dim lineHeight As Double = Self.RowLineHeight(row, g)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Dim extraLine As Integer = 0</SourceLine>
+   <SourceLine>If allowSpaceForTyping Then </SourceLine>
+   <SourceLine>extraLine = 1</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Compute scroll targets</SourceLine>
+   <SourceLine>Dim yOffsetOfTargetRowBottomTarget As Double = (yOfEditRow - Self.Height + (lineCount + extraLine) * lineHeight) // lineCount + 1 to go to the line AFTER the current line (for new returns and a little extra space at the bottom)</SourceLine>
+   <SourceLine>Dim yOffsetOfTargetRowTopTarget As Double = (yOfEditRow + (lineCount - 1) * lineHeight) // lineCount - 1 to go to the line BEFORE the current line</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Set scroll targets in content pixels</SourceLine>
+   <SourceLine>Self.ContentOffset.Y = Min(-yOffsetOfTargetRowBottomTarget, Max(Self.ContentOffset.Y, -yOffsetOfTargetRowTopTarget))</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>VerticalScrollbar.ScrollTo(-Self.ContentOffset.Y, Me.Height, Me.ComputedTotalHeight)</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>allowSpaceForTyping as Boolean = True</ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>Update_TextArea_ForRendering</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>2124556287</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub Update_TextArea_ForRendering(row as TRCustomListBoxRow, height as Double = -1)</SourceLine>
+   <SourceLine>Dim ta As DesktopTextArea = TA_RenderSource</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>ta.Text = row.Text</SourceLine>
+   <SourceLine>If row.Multiline Then</SourceLine>
+   <SourceLine>// Might be issue with right justification?</SourceLine>
+   <SourceLine>ta.Text = ta.Text + "  " // Add two characters to workaround this bug: https://tracker.xojo.com/xojoinc/xojo/-/issues/72962</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>ta.FontName = Me.RowFontName(row)</SourceLine>
+   <SourceLine>ta.FontSize = Me.RowFontSize(row)</SourceLine>
+   <SourceLine>ta.LineHeight = row.LineHeight</SourceLine>
+   <SourceLine>ta.LineSpacing = row.LineSpacing</SourceLine>
+   <SourceLine>ta.TextColor = Me.RowFontColor(row)</SourceLine>
+   <SourceLine>ta.TextAlignment = row.TextAlignment</SourceLine>
+   <SourceLine>ta.MultiLine = row.Multiline Or row.WordWrap</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>ta.Width = Self.RowTextAreaWidth(row)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If height &gt; -1 Then</SourceLine>
+   <SourceLine>ta.Height = height</SourceLine>
+   <SourceLine>End</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>row as TRCustomListBoxRow, height as Double = -1</ItemParams>
   <ItemResult></ItemResult>
  </Method>
  <Hook>
@@ -613,7 +758,15 @@
   <ItemResult></ItemResult>
  </Hook>
  <Hook>
-  <ItemName>WillEditRow</ItemName>
+  <ItemName>RowEditingWillBegin</ItemName>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemFlags>33</ItemFlags>
+  <SystemFlags>0</SystemFlags>
+  <ItemParams>row as TRCustomListBoxRow</ItemParams>
+  <ItemResult></ItemResult>
+ </Hook>
+ <Hook>
+  <ItemName>RowEditingDidEnd</ItemName>
   <TextEncoding>134217984</TextEncoding>
   <ItemFlags>33</ItemFlags>
   <SystemFlags>0</SystemFlags>
@@ -1093,11 +1246,7 @@
     <SourceLine>End</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>If i &lt;&gt; Self.EditedRowIndex Then // Don't draw edited row; there's a text area covering it</SourceLine>
-    <SourceLine>Self.Update_TextArea(TA_RenderSource, row)</SourceLine>
-    <SourceLine></SourceLine>
-    <SourceLine>TA_RenderSource.Height = row.ComputedHeight</SourceLine>
-    <SourceLine>TA_RenderSource.Width = Self.RowTextAreaWidth(row)</SourceLine>
-    <SourceLine>TA_RenderSource.MultiLine = row.WordWrap</SourceLine>
+    <SourceLine>Self.Update_TextArea_ForRendering(row, row.ComputedTextHeight)</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>TA_RenderSource.DrawInto(g, row.MarginLeft, row.MarginTop)</SourceLine>
     <SourceLine>End</SourceLine>
@@ -1191,6 +1340,8 @@
     <SourceLine>Self.Update_ComputeHeight_Row(row, Self.FontCalculatorGraphics)</SourceLine>
     <SourceLine>Self.ComputedTotalHeight = Self.ComputedTotalHeight - beforeHeight + row.ComputedHeight</SourceLine>
     <SourceLine></SourceLine>
+    <SourceLine>Self.ScrollToEditRowInsertionPoint(True)</SourceLine>
+    <SourceLine></SourceLine>
     <SourceLine>Self.Update(True)</SourceLine>
     <SourceLine>Self.Refresh(True)</SourceLine>
     <SourceLine></SourceLine>
@@ -1209,6 +1360,20 @@
     <SourceLine>VerticalScrollbar.Value = VerticalScrollbar.Value + VerticalScrollbar.LineStep * Sign(deltaY)</SourceLine>
     <SourceLine></SourceLine>
     <SourceLine>End Function</SourceLine>
+   </ItemSource>
+  </HookInstance>
+  <HookInstance>
+   <ItemName>SelectionChanged</ItemName>
+   <Compatibility></Compatibility>
+   <Visible>1</Visible>
+   <PartID>99256319</PartID>
+   <ItemSource>
+    <TextEncoding>134217984</TextEncoding>
+    <SourceLine>Sub SelectionChanged()</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>Self.ScrollToEditRowInsertionPoint(False)</SourceLine>
+    <SourceLine></SourceLine>
+    <SourceLine>End Sub</SourceLine>
    </ItemSource>
   </HookInstance>
  </ControlBehavior>
