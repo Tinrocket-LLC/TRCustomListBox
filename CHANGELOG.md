@@ -4,7 +4,7 @@
 - New public method to scroll to the edit row's insertion point: TRCustomListBox(instance).ScrollToEditRowInsertionPoint()
 - Refactored text metrics calculations
 - New public method to get the edit row TRCustomListBox(instance).EditRow() as TRCustomListBoxRow 
-- New public method to inutively scroll to a content offset: TRProportionalDesktopScrollbar(instance)ScrollTo(value as Double, contentHeight as Double, visibleHeight as Double)
+- New public method to intuitively scroll to a content offset: TRProportionalDesktopScrollbar(instance)ScrollTo(value as Double, contentHeight as Double, visibleHeight as Double)
 - Bug fixes
 
 
